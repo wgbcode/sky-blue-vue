@@ -5,6 +5,8 @@
 </template>
 
 <script lang="ts">
+import x from "@/assets/Icons/money.svg";
+console.log(x);
 export default {
   name: "Money",
 };
