@@ -1,5 +1,8 @@
+
 <template>
-  <svg class="icon"><use :xlink:herf="'#' + name" /></svg>
+  <svg class="icon">
+    <use :xlink:href="'#' + name" />
+  </svg>
 </template>
 
 <script lang="ts">
@@ -12,10 +15,17 @@ try {
   console.log(error);
 }
 export default {
-  props: ["name"], // 加中括号
+  props: ["name"],
   name: "Icon",
 };
 </script>
 
 <style lang="scss" scoped>
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
 </style>
