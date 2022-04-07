@@ -1,10 +1,17 @@
 <template>
   <div class="nav">
-    <router-link to="/labels">标签页</router-link>
-    |
-    <router-link to="/money">记账页</router-link>
-    |
-    <router-link to="/statistics">统计页</router-link>
+    <router-link to="/labels">
+      <Icon name="label" />
+      <span>标签页</span>
+    </router-link>
+    <router-link to="/money">
+      <Icon name="money" />
+      <span>记账页</span>
+    </router-link>
+    <router-link to="/statistics">
+      <Icon name="statistics" />
+      <span> 统计页</span>
+    </router-link>
   </div>
 </template>
 
