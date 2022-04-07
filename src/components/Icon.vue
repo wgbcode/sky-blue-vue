@@ -1,4 +1,3 @@
-
 <template>
   <svg class="icon">
     <use :xlink:href="'#' + name" />
@@ -15,7 +14,7 @@ try {
   console.log(error);
 }
 export default {
-  props: ["name"],
+  props: ["name"], // 中括号
   name: "Icon",
 };
 </script>
