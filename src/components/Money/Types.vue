@@ -1,15 +1,20 @@
 <template>
-  <div class="types">
-    <span class="selected">支出</span>
-    <span>收入</span>
-  </div>
+  <ul class="types">
+    <li :class="type === '-' && 'selected'" @click="selecteType('-')">支出</li>
+    <li :class="type === '+' && 'selected'" @click="selecteType('+')">收入</li>
+  </ul>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class Types extends Vue {}
+export default class Types extends Vue {
+  type = "-";
+  selecteType(type: string): void {
+    this.type = type;
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -19,16 +24,18 @@ export default class Types extends Vue {}
   line-height: 22px;
   font-family: $font-hei;
   background: #c4c4c4;
-  padding: 20px 0;
   display: flex;
-  text-align: center;
-  position: relative;
-  span {
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 20px 0;
     width: 50%;
     &.selected::after {
       position: absolute;
       height: 3px;
-      width: 50%;
+      width: 100%;
       background: red;
       content: "";
       bottom: 0;

@@ -2,7 +2,7 @@
   <div>
     <label class="notes">
       <span>备注</span>
-      <input type="text" placeholder="在这里添加备注" />
+      <input type="text" v-model="value" placeholder="在这里添加备注" />
     </label>
   </div>
 </template>
@@ -11,12 +11,17 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class Notes extends Vue {}
+export default class Notes extends Vue {
+  value = "";
+}
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
 .notes {
+  display: flex;
+  align-content: center;
+  justify-content: center;
   font-size: 16px;
   background: inherit;
   white-space: nowrap;
@@ -25,9 +30,12 @@ export default class Notes extends Vue {}
   }
   input {
     height: 65px;
-    width: 100%;
+    flex-grow: 1;
     background: inherit;
     border: none;
+  }
+  input:focus {
+    outline: none;
   }
 }
 </style>
