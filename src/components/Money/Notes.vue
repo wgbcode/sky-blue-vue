@@ -8,11 +8,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Watch, Vue, Prop } from "vue-property-decorator";
 
 @Component
 export default class Notes extends Vue {
-  value = "";
+  @Prop(String) readonly value!: string;
+  @Watch("value")
+  onValueChanged(value: string): void {
+    this.$emit("update:value", value);
+  }
 }
 </script>
 

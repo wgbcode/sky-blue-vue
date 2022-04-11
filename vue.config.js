@@ -22,3 +22,6 @@ module.exports = {
     config.module.rule('svg').exclude.add(dir)
   }
 }
+
+
+JSON.stringify
