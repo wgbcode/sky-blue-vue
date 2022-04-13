@@ -1,14 +1,13 @@
-
-
+const localStorageKeyName = "recordList"
 const recordListModel = {
     fetch(): RecordItem[] {
-        return JSON.parse(window.localStorage.getItem("recordList") || "[]")
+        return JSON.parse(window.localStorage.getItem(localStorageKeyName) || "[]")
     },
-    save(recordList: RecordItem[]) {
-        window.localStorage.setItem('recordList', JSON.stringify(recordList))
+    save(data: RecordItem[]) {
+        window.localStorage.setItem(localStorageKeyName, JSON.stringify(data))
     },
-    clone(record: RecordItem) {
-        return JSON.parse(JSON.stringify(record))
+    clone(data: RecordItem[] | RecordItem) {
+        return JSON.parse(JSON.stringify(data))
     }
 }
 
