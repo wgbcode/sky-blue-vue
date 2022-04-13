@@ -12,10 +12,14 @@ type TagListModel = {
     create: (name: string) => "duplicated" | 'success'
     save: () => void
     remove: (id: number) => Boolean
+    update: (id: number, name: string) => "success" | 'not found' | 'duplicated'
 }
 const tagListModel: TagListModel = {
     data: [],
-    fetch() { return JSON.parse(localStorage.getItem(localStorageKeyName) || "[]") },
+    fetch() {
+        this.data = JSON.parse(localStorage.getItem(localStorageKeyName) || "[]")
+        return this.data
+    },
     create(name: string) {
         let names = this.data.map(tag => tag.name)
         if (names.indexOf(name) >= 0) {
@@ -38,6 +42,22 @@ const tagListModel: TagListModel = {
         this.data.splice(index, 1)
         this.save()
         return true
+    },
+    update(id, name) {
+        const idList = this.data.map(item => item.id);
+        if (idList.indexOf(id) >= 0) {
+            const names = this.data.map(item => item.name);
+            if (names.indexOf(name) >= 0) {
+                return 'duplicated';
+            } else {
+                const tag = this.data.filter(item => item.id === id)[0];
+                tag.name = name;
+                this.save();
+                return 'success';
+            }
+        } else {
+            return 'not found';
+        }
     },
     save() {
         localStorage.setItem(localStorageKeyName, JSON.stringify(this.data))

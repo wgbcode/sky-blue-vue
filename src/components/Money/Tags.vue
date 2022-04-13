@@ -3,7 +3,7 @@
     <ul class="current">
       <li
         v-for="tag in value"
-        :key="tag.id"
+        :key="tag.name"
         :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
         @click="toggle(tag)"
       >
@@ -17,9 +17,10 @@
 </template>
 
 <script lang="ts">
-import createTag from "@/lib/createTag";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
+import tagListModel from "@/models/tagListModel";
+import createdId from "@/lib/createId";
 
 @Component
 export default class Tags extends Vue {
@@ -32,9 +33,19 @@ export default class Tags extends Vue {
     } else {
       this.selectedTags.splice(index, 1);
     }
+    this.$emit("update:value2", this.selectedTags);
   }
   create() {
-    createTag();
+    const name = window.prompt("请输入标签名");
+    console.log("name");
+    console.log(name);
+    if (name === "") {
+      window.alert("标签名不能为空");
+    } else if (this.value) {
+      console.log("this.value");
+      console.log(this.value);
+      this.$emit("update:value", [...this.value, { id: createdId, name }]);
+    }
   }
 }
 </script>

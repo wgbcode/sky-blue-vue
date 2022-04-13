@@ -4,5 +4,5 @@ type RecordItem = {
     notes: string;
     type: string;
     amount: number;
-    creatAt?: Date;
+    createdAt?: Date;
 };  

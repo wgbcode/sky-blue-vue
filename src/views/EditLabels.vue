@@ -5,9 +5,13 @@
       <span>编辑标签</span>
       <Icon />
     </div>
-    <div class="content">
-      <span>标签名</span>
-      <input type="text" placeholder="标签名是?" :value="tag.name" />
+    <div class="form-wrapper">
+      <FormItem
+        :value="tag.name"
+        @update:value="update"
+        field-name="标签名"
+        placeholder="请输入标签名"
+      />
     </div>
     <ButtonStyle @click="remove"><slot>删除标签</slot></ButtonStyle>
   </div>
@@ -32,6 +36,11 @@ export default class EditLabels extends Vue {
   }
   goBack() {
     this.$router.back();
+  }
+  update(name: string) {
+    if (this.tag) {
+      tagListModel.update(this.tag.id, name);
+    }
   }
   remove() {
     if (this.tag) {
@@ -59,24 +68,8 @@ export default class EditLabels extends Vue {
     width: 20px;
   }
 }
-.content {
-  font-size: 16px;
-  line-height: 16px;
+.form-wrapper {
   background: white;
-  padding: 12px 16px;
   margin-top: 8px;
-  display: flex;
-  align-items: center;
-  span {
-    margin-right: 12px;
-  }
-  input {
-    flex-grow: 1;
-    height: 42px;
-    border: none;
-  }
-  input:focus {
-    outline: none;
-  }
 }
 </style>
