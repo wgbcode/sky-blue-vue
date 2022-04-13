@@ -24,7 +24,7 @@ export default class Notes extends Vue {
 @import "~@/assets/style/helper.scss";
 .notes {
   display: flex;
-  align-content: center;
+  align-items: center;
   justify-content: center;
   font-size: 16px;
   background: inherit;

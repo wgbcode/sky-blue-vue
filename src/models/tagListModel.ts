@@ -11,6 +11,7 @@ type TagListModel = {
     fetch: () => tag[],
     create: (name: string) => "duplicated" | 'success'
     save: () => void
+    remove: (id: number) => Boolean
 }
 const tagListModel: TagListModel = {
     data: [],
@@ -25,6 +26,18 @@ const tagListModel: TagListModel = {
             this.save()
             return 'success'
         }
+    },
+    remove(id: number) {
+        let index = -1
+        for (let i = 0; i < this.data.length; i++) {
+            if (this.data[i].id === id) {
+                index = i
+                break
+            }
+        }
+        this.data.splice(index, 1)
+        this.save()
+        return true
     },
     save() {
         localStorage.setItem(localStorageKeyName, JSON.stringify(this.data))
