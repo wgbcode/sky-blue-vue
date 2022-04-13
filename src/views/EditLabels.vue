@@ -7,10 +7,10 @@
     </div>
     <div class="form-wrapper">
       <FormItem
-        :value="tag.name"
-        @update:value="update"
         field-name="标签名"
         placeholder="请输入标签名"
+        :value="tag.name"
+        @update:value="update"
       />
     </div>
     <ButtonStyle @click="remove"><slot>删除标签</slot></ButtonStyle>

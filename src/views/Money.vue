@@ -1,7 +1,11 @@
 <template>
   <Layout>
-    {{ tags }}
-    <Tags :value.sync="tags" @update:value2="saveRecord" />
+    {{ recordList }}
+    <Tags
+      :value.sync="tags"
+      @update:value="onUpdateTags"
+      @update:value2="saveRecord"
+    />
     <FormItem
       field-name="备注"
       placeholder="在这里输入备注"
@@ -38,9 +42,13 @@ export default class Money extends Vue {
   recordList: RecordItem[] = recordList;
   onUpdateTags(value2: string[]) {
     this.record.tags = value2;
+    console.log("this.record.tags");
+    console.log(this.record.tags);
   }
   onUpdateNotes(value: string) {
     this.record.notes = value;
+    console.log("this.record.notes");
+    console.log(this.record.notes);
   }
   saveRecord() {
     const record2: RecordItem = recordListModel.clone(this.record);

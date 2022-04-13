@@ -33,6 +33,8 @@ export default class Tags extends Vue {
     } else {
       this.selectedTags.splice(index, 1);
     }
+    console.log("this.selectedTags");
+    console.log(this.selectedTags);
     this.$emit("update:value2", this.selectedTags);
   }
   create() {
