@@ -13,9 +13,7 @@
           <Icon name="right" />
         </router-link>
       </div>
-      <div class="createTag-Wrapper">
-        <button class="createTag" @click="create">新增标签</button>
-      </div>
+      <ButtonStyle @click="create"><slot>新增标签</slot></ButtonStyle>
     </div>
   </Layout>
 </template>
@@ -50,21 +48,6 @@ export default class Labels extends Vue {
     justify-content: space-between;
     box-shadow: inset 0px -0.5px 0px #bcbbc1;
     margin-left: 16px;
-  }
-}
-.createTag {
-  font-size: 17px;
-  line-height: 22px;
-  color: white;
-  background: #767676;
-  border: none;
-  padding: 9px 16px;
-  border-radius: 4px;
-  &-Wrapper {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    margin-top: 44px;
   }
 }
 </style>
