@@ -33,19 +33,13 @@ export default class Tags extends Vue {
     } else {
       this.selectedTags.splice(index, 1);
     }
-    console.log("this.selectedTags");
-    console.log(this.selectedTags);
     this.$emit("update:value2", this.selectedTags);
   }
   create() {
     const name = window.prompt("请输入标签名");
-    console.log("name");
-    console.log(name);
     if (name === "") {
       window.alert("标签名不能为空");
     } else if (this.value) {
-      console.log("this.value");
-      console.log(this.value);
       this.$emit("update:value", [...this.value, { id: createdId, name }]);
     }
   }

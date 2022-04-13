@@ -1,6 +1,5 @@
 <template>
   <Layout>
-    {{ recordList }}
     <Tags
       :value.sync="tags"
       @update:value="onUpdateTags"
@@ -42,25 +41,17 @@ export default class Money extends Vue {
   recordList: RecordItem[] = recordList;
   onUpdateTags(value2: string[]) {
     this.record.tags = value2;
-    console.log("this.record.tags");
-    console.log(this.record.tags);
   }
   onUpdateNotes(value: string) {
     this.record.notes = value;
-    console.log("this.record.notes");
-    console.log(this.record.notes);
   }
   saveRecord() {
     const record2: RecordItem = recordListModel.clone(this.record);
     record2.createdAt = new Date();
-    console.log("record2");
-    console.log(record2);
     this.recordList.push(record2);
   }
   @Watch("recordList")
   onRecordListChange() {
-    console.log("this.recordList");
-    console.log(this.recordList);
     recordListModel.save(this.recordList);
   }
 }
