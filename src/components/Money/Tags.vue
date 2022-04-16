@@ -41,6 +41,11 @@ export default class Tags extends Vue {
       window.alert("标签名不能为空");
     } else if (this.value) {
       this.$emit("update:value", [...this.value, { id: createdId, name }]);
+      if (name) {
+        console.log(name);
+
+        tagListModel.create(name);
+      }
     }
   }
 }

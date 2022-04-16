@@ -2,18 +2,6 @@ import createId from "@/lib/createId"
 
 const localStorageKeyName = 'tagList'
 
-type tag = {
-    id: string,
-    name: string
-}
-type TagListModel = {
-    data: tag[],
-    fetch: () => tag[],
-    create: (name: string) => "duplicated" | 'success'
-    save: () => void
-    remove: (id: string) => Boolean
-    update: (id: string, name: string) => "success" | 'not found' | 'duplicated'
-}
 const tagListModel: TagListModel = {
     data: [],
     fetch() {
@@ -27,6 +15,8 @@ const tagListModel: TagListModel = {
         } else {
             let id = createId()
             this.data.push({ id, name })
+            console.log(this.data);
+
             this.save()
             return 'success'
         }
