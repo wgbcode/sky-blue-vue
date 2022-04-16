@@ -19,6 +19,10 @@ Vue.component("ButtonStyle", ButtonStyle)
 Vue.component("FormItem", FormItem)
 
 window.tagList = tagListModel.fetch()
+window.findTag = (id: string) => {
+  return window.tagList.filter((tag) => tag.id === id)[0];
+
+}
 window.createTag = (name: string) => {
   if (name) {
     const message = tagListModel.create(name);
@@ -28,6 +32,12 @@ window.createTag = (name: string) => {
       window.alert("添加成功");
     }
   }
+}
+window.removeTag = (tag: tag) => {
+  return tagListModel.remove(tag.id)
+}
+window.updateTag = (id: string, name: string) => {
+  return tagListModel.update(id, name)
 }
 
 new Vue({

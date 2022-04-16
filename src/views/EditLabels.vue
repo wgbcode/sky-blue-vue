@@ -18,7 +18,6 @@
 </template>
 
 <script lang="ts">
-import tagListModel from "@/models/tagListModel";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
@@ -26,11 +25,8 @@ export default class EditLabels extends Vue {
   tag?: { id: string; name: string } = undefined;
   created() {
     let id = this.$route.params.id;
-    let tags = tagListModel.data;
-    let tag = tags.filter((tag) => tag.id === id)[0];
-    if (tag) {
-      this.tag = tag;
-    } else {
+    this.tag = window.findTag(id);
+    if (!this.tag) {
       this.$router.replace("/404");
     }
   }
@@ -39,12 +35,12 @@ export default class EditLabels extends Vue {
   }
   update(name: string) {
     if (this.tag) {
-      tagListModel.update(this.tag.id, name);
+      window.updateTag(this.tag.id, name);
     }
   }
   remove() {
     if (this.tag) {
-      tagListModel.remove(this.tag.id);
+      window.removeTag(this.tag.id);
       this.goBack();
     }
   }
