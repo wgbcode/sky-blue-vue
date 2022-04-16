@@ -23,9 +23,9 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class EditLabels extends Vue {
-  tag?: { id: number; name: string } = undefined;
+  tag?: { id: string; name: string } = undefined;
   created() {
-    let id = parseInt(this.$route.params.id);
+    let id = this.$route.params.id;
     let tags = tagListModel.data;
     let tag = tags.filter((tag) => tag.id === id)[0];
     if (tag) {

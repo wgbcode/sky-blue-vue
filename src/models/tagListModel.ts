@@ -3,7 +3,7 @@ import createId from "@/lib/createId"
 const localStorageKeyName = 'tagList'
 
 type tag = {
-    id: number,
+    id: string,
     name: string
 }
 type TagListModel = {
@@ -11,8 +11,8 @@ type TagListModel = {
     fetch: () => tag[],
     create: (name: string) => "duplicated" | 'success'
     save: () => void
-    remove: (id: number) => Boolean
-    update: (id: number, name: string) => "success" | 'not found' | 'duplicated'
+    remove: (id: string) => Boolean
+    update: (id: string, name: string) => "success" | 'not found' | 'duplicated'
 }
 const tagListModel: TagListModel = {
     data: [],
@@ -31,7 +31,7 @@ const tagListModel: TagListModel = {
             return 'success'
         }
     },
-    remove(id: number) {
+    remove(id: string) {
         let index = -1
         for (let i = 0; i < this.data.length; i++) {
             if (this.data[i].id === id) {

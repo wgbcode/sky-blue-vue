@@ -20,7 +20,6 @@
 <script lang="ts">
 import Vue from "vue";
 import Icon from "@/components/Icon.vue";
-import createTag from "@/lib/createTag";
 import { Component } from "vue-property-decorator";
 import tagListModel from "@/models/tagListModel";
 
