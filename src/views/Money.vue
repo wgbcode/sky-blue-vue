@@ -1,10 +1,10 @@
 <template>
   <Layout>
-    <Tags :value="tags" />
+    <Tags :value="tags" :selectedTag.sync="record.tags" />
     <FormItem
       field-name="备注"
       placeholder="在这里输入备注"
-      @update:value="onUpdateNotes"
+      :value.sync="record.notes"
     />
     <Types :value.sync="record.type" />
     <NumberPad :value.sync="record.amount" @submit="saveRecord" />
@@ -30,9 +30,6 @@ export default class Money extends Vue {
     amount: 0,
   };
   recordList = window.recordList;
-  onUpdateNotes(value: string) {
-    this.record.notes = value;
-  }
   saveRecord() {
     this.record.createdAt = new Date();
     window.createRecord(this.record);
