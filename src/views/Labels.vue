@@ -12,25 +12,23 @@
           <Icon name="right" />
         </router-link>
       </div>
-      <ButtonStyle @click="create"><slot>新增标签</slot></ButtonStyle>
+      <ButtonStyle @click="createTag"><slot>新增标签</slot></ButtonStyle>
     </div>
   </Layout>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Icon from "@/components/Icon.vue";
 import { Component } from "vue-property-decorator";
-import store2 from "@/store/index2";
+import { Mixins } from "vue-property-decorator";
+import TagHelper from "@/mixins/TagHelper";
 
-@Component({
-  components: { Icon },
-})
-export default class Labels extends Vue {
-  tags = store2.tagList;
-  create() {
-    const name = window.prompt("请输出标签名");
-    store2.createTag(name);
+@Component
+export default class Labels extends Mixins(TagHelper) {
+  get tags() {
+    return this.$store.state.tagList;
+  }
+  beforeCreate() {
+    this.$store.commit("fetchTags");
   }
 }
 </script>

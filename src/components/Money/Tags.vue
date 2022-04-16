@@ -11,20 +11,23 @@
       </li>
     </ul>
     <div class="new">
-      <button @click="create">新增标签</button>
+      <button @click="createTag">新增标签</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import store2 from "@/store/index2";
+import { Mixins } from "vue-property-decorator";
+import TagHelper from "@/mixins/TagHelper";
 
 @Component
-export default class Tags extends Vue {
+export default class Tags extends Mixins(TagHelper) {
   @Prop(Array) readonly value: string[] | undefined;
   selectedTags: string[] = [];
+  created() {
+    this.$store.commit("fetchTags");
+  }
   toggle(tag: string): void {
     let index = this.selectedTags.indexOf(tag);
     if (index < 0) {
@@ -33,10 +36,6 @@ export default class Tags extends Vue {
       this.selectedTags.splice(index, 1);
     }
     this.$emit("update:selectedTag", this.selectedTags);
-  }
-  create() {
-    const name = window.prompt("请输入标签名");
-    store2.createTag(name);
   }
 }
 </script>

@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
 export default class FormItem extends Vue {

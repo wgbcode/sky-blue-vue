@@ -6,7 +6,7 @@ type RecordItem = {
     amount: number;
     createdAt?: Date;
 };
-type tag = {
+type Tag = {
     id: string,
     name: string
 }

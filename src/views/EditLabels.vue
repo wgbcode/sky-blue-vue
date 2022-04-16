@@ -9,7 +9,7 @@
       <FormItem
         field-name="标签名"
         placeholder="请输入标签名"
-        :value="tag.name"
+        :value="currentTag.name"
         @update:value="update"
       />
     </div>
@@ -19,15 +19,17 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import store2 from "@/store/index2";
 
 @Component
 export default class EditLabels extends Vue {
-  tag?: { id: string; name: string } = undefined;
+  get currentTag() {
+    return this.$store.state.currentTag;
+  }
   created() {
-    let id = this.$route.params.id;
-    this.tag = store2.findTag(id);
-    if (!this.tag) {
+    const id = this.$route.params.id;
+    this.$store.commit("fetchTags");
+    this.$store.commit("setCurrentTag", id);
+    if (!this.currentTag) {
       this.$router.replace("/404");
     }
   }
@@ -35,14 +37,16 @@ export default class EditLabels extends Vue {
     this.$router.back();
   }
   update(name: string) {
-    if (this.tag) {
-      store2.updateTag(this.tag.id, name);
+    if (this.currentTag) {
+      this.$store.commit("updateTag", {
+        id: this.currentTag.id,
+        name,
+      });
     }
   }
   remove() {
-    if (this.tag) {
-      store2.removeTag(this.tag);
-      this.goBack();
+    if (this.currentTag) {
+      this.$store.commit("removeTag", this.currentTag);
     }
   }
 }
