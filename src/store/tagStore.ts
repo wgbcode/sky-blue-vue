@@ -3,7 +3,7 @@ import createId from "@/lib/createId"
 const localStorageKeyName = 'tagList'
 const tagStore = {
     tagList: [] as tag[],
-    fetch() {
+    fetchTag() {
         this.tagList = JSON.parse(localStorage.getItem(localStorageKeyName) || "[]")
         return this.tagList
     },
@@ -66,5 +66,6 @@ const tagStore = {
     }
 
 }
+tagStore.fetchTag()
 
 export default tagStore
