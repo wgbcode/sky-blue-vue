@@ -19,13 +19,14 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import store2 from "@/store/index2";
 
 @Component
 export default class EditLabels extends Vue {
   tag?: { id: string; name: string } = undefined;
   created() {
     let id = this.$route.params.id;
-    this.tag = window.findTag(id);
+    this.tag = store2.findTag(id);
     if (!this.tag) {
       this.$router.replace("/404");
     }
@@ -35,12 +36,12 @@ export default class EditLabels extends Vue {
   }
   update(name: string) {
     if (this.tag) {
-      window.updateTag(this.tag.id, name);
+      store2.updateTag(this.tag.id, name);
     }
   }
   remove() {
     if (this.tag) {
-      window.removeTag(this.tag.id);
+      store2.removeTag(this.tag);
       this.goBack();
     }
   }

@@ -21,15 +21,16 @@
 import Vue from "vue";
 import Icon from "@/components/Icon.vue";
 import { Component } from "vue-property-decorator";
+import store2 from "@/store/index2";
 
 @Component({
   components: { Icon },
 })
 export default class Labels extends Vue {
-  tags = window.tagList;
+  tags = store2.tagList;
   create() {
     const name = window.prompt("请输出标签名");
-    window.createTag(name);
+    store2.createTag(name);
   }
 }
 </script>

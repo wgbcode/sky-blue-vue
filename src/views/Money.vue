@@ -17,22 +17,23 @@ import { Component } from "vue-property-decorator";
 import Tags from "@/components/Money/Tags.vue";
 import Types from "@/components/Money/Types.vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
+import store2 from "@/store/index2";
 
 @Component({
   components: { Tags, Types, NumberPad },
 })
 export default class Money extends Vue {
-  tags = window.tagList;
+  tags = store2.tagList;
   record: RecordItem = {
     tags: [],
     notes: "",
     type: "-",
     amount: 0,
   };
-  recordList = window.recordList;
+  recordList = store2.recordList;
   saveRecord() {
     this.record.createdAt = new Date();
-    window.createRecord(this.record);
+    store2.createRecord(this.record);
   }
 }
 </script>
