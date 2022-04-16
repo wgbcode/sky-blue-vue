@@ -13,13 +13,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Watch } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import Tags from "@/components/Money/Tags.vue";
 import Types from "@/components/Money/Types.vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
-import recordListModel from "@/models/recordListModel";
-
-let recordList: RecordItem[] = recordListModel.fetch();
 
 @Component({
   components: { Tags, Types, NumberPad },
@@ -32,13 +29,13 @@ export default class Money extends Vue {
     type: "-",
     amount: 0,
   };
-  recordList: RecordItem[] = recordList;
+  recordList = window.recordList;
   onUpdateNotes(value: string) {
     this.record.notes = value;
   }
   saveRecord() {
     this.record.createdAt = new Date();
-    recordListModel.create(this.record);
+    window.createRecord(this.record);
   }
 }
 </script>

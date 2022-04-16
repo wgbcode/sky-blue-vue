@@ -27,4 +27,6 @@ interface Window {
     findTag: (id: string) => {
         id: string, name: string
     }
+    recordList: RecordItem[]
+    createRecord: (record: RecordItem) => void
 }

@@ -9,6 +9,7 @@ import Icon from "@/components/Icon.vue"
 import ButtonStyle from "@/components/ButtonStyle.vue"
 import FormItem from "@/components/Money/FormItem.vue"
 import tagListModel from "@/models/tagListModel"
+import recordListModel from './models/recordListModel'
 
 Vue.config.productionTip = false
 
@@ -18,6 +19,11 @@ Vue.component("Icon", Icon)
 Vue.component("ButtonStyle", ButtonStyle)
 Vue.component("FormItem", FormItem)
 
+// record store
+window.recordList = recordListModel.fetch();
+window.createRecord = (record: RecordItem) => { recordListModel.create(record) }
+
+// tag store
 window.tagList = tagListModel.fetch()
 window.findTag = (id: string) => {
   return window.tagList.filter((tag) => tag.id === id)[0];
