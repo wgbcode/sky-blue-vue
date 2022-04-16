@@ -19,8 +19,6 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import tagListModel from "@/models/tagListModel";
-import createdId from "@/lib/createId";
 
 @Component
 export default class Tags extends Vue {
@@ -33,20 +31,10 @@ export default class Tags extends Vue {
     } else {
       this.selectedTags.splice(index, 1);
     }
-    this.$emit("update:value2", this.selectedTags);
   }
   create() {
     const name = window.prompt("请输入标签名");
-    if (name === "") {
-      window.alert("标签名不能为空");
-    } else if (this.value) {
-      this.$emit("update:value", [...this.value, { id: createdId, name }]);
-      if (name) {
-        console.log(name);
-
-        tagListModel.create(name);
-      }
-    }
+    window.createTag(name);
   }
 }
 </script>

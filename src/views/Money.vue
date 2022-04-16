@@ -1,10 +1,6 @@
 <template>
   <Layout>
-    <Tags
-      :value.sync="tags"
-      @update:value="onUpdateTags"
-      @update:value2="saveRecord"
-    />
+    <Tags :value="tags" />
     <FormItem
       field-name="备注"
       placeholder="在这里输入备注"
@@ -22,7 +18,6 @@ import Tags from "@/components/Money/Tags.vue";
 import Types from "@/components/Money/Types.vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
 import recordListModel from "@/models/recordListModel";
-import tagListModel from "@/models/tagListModel";
 
 let recordList: RecordItem[] = recordListModel.fetch();
 
@@ -38,9 +33,6 @@ export default class Money extends Vue {
     amount: 0,
   };
   recordList: RecordItem[] = recordList;
-  onUpdateTags(value2: string[]) {
-    this.record.tags = value2;
-  }
   onUpdateNotes(value: string) {
     this.record.notes = value;
   }

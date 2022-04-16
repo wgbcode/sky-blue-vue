@@ -15,8 +15,6 @@ const tagListModel: TagListModel = {
         } else {
             let id = createId()
             this.data.push({ id, name })
-            console.log(this.data);
-
             this.save()
             return 'success'
         }
