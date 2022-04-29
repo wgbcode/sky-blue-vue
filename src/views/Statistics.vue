@@ -1,7 +1,7 @@
 <template>
   <layout>
     <Tab class-prefix="type" :data-source="recordTypeList" :value.sync="type" />
-    <ol class="records">
+    <ol class="records" v-if="result.length !== {}">
       <li v-for="group in result" :key="group.id">
         <h3 class="title">{{ beautify(group.title) }}</h3>
         <div v-for="item in group.items" :key="item.tags.id" class="record">
@@ -11,6 +11,9 @@
         </div>
       </li>
     </ol>
+    <div v-else class="noresult">
+      <span> 目标没有相关记录</span>
+    </div>
   </layout>
 </template>
 
@@ -99,5 +102,10 @@ export default class Statistics extends Vue {
   .notes {
     color: #9f9f9f;
   }
+}
+.noresult {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
 }
 </style>

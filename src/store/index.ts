@@ -37,6 +37,9 @@ const store = new Vuex.Store({
 
     fetchTags(state) {
       state.tagList = JSON.parse(localStorage.getItem('tagList') || "[]")
+      if (!state.tagList || state.tagList.length === 0) {
+        state.tagList = [{ "id": "1", "name": "衣" }, { "id": "2", "name": "食" }, { "id": "3", "name": "住" }, { "id": "4", "name": "行" }]
+      }
     },
     findTag: (state, id: string) => {
       return state.tagList.filter((tag) => tag.id === id)[0];
@@ -47,12 +50,12 @@ const store = new Vuex.Store({
         const message = ((name: string) => {
           let names = state.tagList.map(tag => tag.name)
           if (names.indexOf(name) >= 0) {
-            return "duplicated"  // ？
+            return "duplicated"
           } else {
             let id = createId()
             state.tagList.push({ id, name })
             store.commit('saveTags')
-            return 'success'   // ？
+            return 'success'
           }
         })(name)
         if (message === "duplicated") {

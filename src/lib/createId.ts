@@ -1,4 +1,4 @@
-let id = parseInt(localStorage.getItem('idMax') || "0")
+let id = parseInt(localStorage.getItem('idMax') || '4')
 
 function createId() {
     id += 1
