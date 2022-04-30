@@ -1,14 +1,16 @@
 <template>
-  <ul class="tab">
-    <li
-      v-for="item in dataSource"
-      :key="item.value"
-      @click="select(item)"
-      :class="liClass(item)"
-    >
-      {{ item.text }}
-    </li>
-  </ul>
+  <div class="tabWrapper">
+    <ul class="tab">
+      <li
+        v-for="item in dataSource"
+        :key="item.value"
+        @click="select(item)"
+        :class="liClass(item)"
+      >
+        {{ item.text }}
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script lang="ts">
@@ -29,33 +31,39 @@ export default class Tab extends Vue {
   }
   select(item: DataSourceItem) {
     this.$emit("update:value", item.value);
+    this.$store.state.selectedType = item.value;
+    this.$store.commit("fetchTags");
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
-.tab {
-  font-size: 24px;
-  line-height: 22px;
-  font-family: $font-hei;
-  background: #c4c4c4;
-  display: flex;
-  li {
+.tabWrapper {
+  background: #60aa87;
+  .tab {
+    font-size: 16px;
+    line-height: 22px;
+    font-family: $font-hei;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    padding: 20px 0;
-    width: 50%;
-    &.selected::after {
-      position: absolute;
-      height: 3px;
-      width: 100%;
-      background: red;
-      content: "";
-      bottom: 0;
-      left: 0;
+    padding: 20px 0 0 0;
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: white;
+      margin: 0px 15px;
+      padding: 0 0 5px 0;
+      &.selected::after {
+        position: absolute;
+        height: 3px;
+        width: 100%;
+        background: white;
+        content: "";
+        bottom: 0;
+        left: 0;
+      }
     }
   }
 }

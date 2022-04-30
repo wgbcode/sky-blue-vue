@@ -14,7 +14,7 @@ try {
   console.log(error);
 }
 export default {
-  props: ["name"], // 中括号
+  props: ["name"],
   name: "Icon",
 };
 </script>

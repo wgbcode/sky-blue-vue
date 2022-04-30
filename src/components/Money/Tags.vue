@@ -1,18 +1,23 @@
 <template>
   <div class="tags">
     <ul class="current">
-      <li
-        v-for="tag in value"
-        :key="tag.name"
-        :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
-        @click="toggle(tag)"
-      >
-        {{ tag.name }}
+      <li v-for="tag in value" :key="tag.name" @click="toggle(tag)">
+        <Icon
+          :name="tag.icon"
+          :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
+        />
+        <span> {{ tag.name }}</span>
       </li>
+      <div class="new">
+        <Icon name="addTag" @click="createTag" />
+        <span>添加</span>
+      </div>
+      <i></i
+      ><i></i
+      ><i></i
+      ><i></i
+      ><i></i>
     </ul>
-    <div class="new">
-      <button @click="createTag">新增标签</button>
-    </div>
   </div>
 </template>
 
@@ -30,7 +35,10 @@ export default class Tags extends Mixins(TagHelper) {
   }
   toggle(tag: string): void {
     let index = this.selectedTags.indexOf(tag);
-    if (index < 0) {
+    if (index < 0 && this.selectedTags.length <= 0) {
+      this.selectedTags.push(tag);
+    } else if (index < 0 && this.selectedTags.length > 0) {
+      this.selectedTags.splice(index, 1);
       this.selectedTags.push(tag);
     } else {
       this.selectedTags.splice(index, 1);
@@ -49,31 +57,52 @@ export default class Tags extends Mixins(TagHelper) {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  justify-content: space-around;
   overflow: auto;
   .current {
     display: flex;
-    list-style: none;
-    margin: 4px;
+    justify-content: space-between;
     flex-flow: wrap;
+    display: flex;
+    list-style: none;
+    flex-flow: wrap;
+    overflow: auto;
+    justify-content: space-between;
+    text-align: center;
     li {
-      padding: 0 18px;
+      display: flex;
+      flex-direction: column;
+      padding: 0 15px;
       border-radius: 12px;
-      background: #d9d9d9;
       margin: 12px;
-      &.selected {
-        background: burlywood;
+      .icon {
+        background: #f6f6f6;
+        border-radius: 20px;
+        height: 35px;
+        width: 35px;
+        padding: 5px;
+      }
+      .selected {
+        background: #5fab87;
       }
     }
+    i {
+      width: 65px;
+      margin: 12px;
+    }
   }
+
   .new {
-    margin: 4px 0 8px 16px;
-    padding: 0 4px;
-    button {
-      background: transparent;
-      border: none;
-      color: #b2b2b2;
-      border-bottom: 1px solid #a6a6a6;
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px;
+    border-radius: 12px;
+    margin: 12px;
+    .icon {
+      background: #f6f6f6;
+      border-radius: 20px;
+      height: 35px;
+      width: 35px;
+      padding: 5px;
     }
   }
 }
