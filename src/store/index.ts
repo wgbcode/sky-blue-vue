@@ -49,7 +49,7 @@ const store = new Vuex.Store({
         }
         state.showTagList = state.tagList.filter((t: Tag) => t.type === "+")
       }
-    },   // 问题待解决：每次刷新或切换路由都要调用一次 fetchTags
+    },   // 问题待解决：每次切换路由都要调用一次 fetchTags
     findTag: (state, id: string) => {
       return state.tagList.filter((tag) => tag.id === id)[0];
     },

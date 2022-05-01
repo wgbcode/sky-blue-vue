@@ -9,8 +9,10 @@
         <span> {{ tag.name }}</span>
       </li>
       <div class="new">
-        <Icon name="addTag" @click="createTag" />
-        <span>添加</span>
+        <router-link class="router" to="/addTag">
+          <Icon name="addTag" />
+          <span>添加</span>
+        </router-link>
       </div>
       <i></i
       ><i></i
@@ -22,12 +24,11 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import { Mixins } from "vue-property-decorator";
-import TagHelper from "@/mixins/TagHelper";
 
 @Component
-export default class Tags extends Mixins(TagHelper) {
+export default class Tags extends Vue {
   @Prop(Array) readonly value: string[] | undefined;
   selectedTags: string[] = [];
   created() {
@@ -91,7 +92,7 @@ export default class Tags extends Mixins(TagHelper) {
     }
   }
 
-  .new {
+  .router {
     display: flex;
     flex-direction: column;
     padding: 0 15px;
