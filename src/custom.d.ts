@@ -27,5 +27,6 @@ type RootState = {
     showTagList: Tag[],
     currentTag?: Tag,
     selectedType: "-" | "+"
+    iconNameList: string[]
 }
 

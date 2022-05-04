@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <Tab :data-source="recordTypeList" :value.sync="record.type" />
-    <Tags :value="tagList" :selectedTag.sync="record.tags" />
+    <Tags :value="showTagList" :selectedTag.sync="record.tags" />
     <FormItem
       field-name="备注"
       placeholder="在这里输入备注"
@@ -26,7 +26,7 @@ export default class Money extends Vue {
   get recordList() {
     return this.$store.state.recordList;
   }
-  get tagList() {
+  get showTagList() {
     return this.$store.state.showTagList;
   }
   recordTypeList = recordTypeList;
@@ -37,8 +37,8 @@ export default class Money extends Vue {
     amount: 0,
   };
   created() {
-    this.$store.commit("fetchRecords");
     this.$store.commit("fetchTags");
+    this.$store.commit("fetchRecords");
   }
   saveRecord() {
     this.record.createdAt = new Date().toISOString();
