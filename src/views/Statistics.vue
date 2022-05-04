@@ -1,5 +1,5 @@
 <template>
-  <layout>
+  <Layout>
     <Tab class-prefix="type" :data-source="recordTypeList" :value.sync="type" />
     <ol class="records" v-if="result.length !== {}">
       <li v-for="group in result" :key="group.id">
@@ -14,7 +14,7 @@
     <div v-else class="noresult">
       <span> 目标没有相关记录</span>
     </div>
-  </layout>
+  </Layout>
 </template>
 
 <script lang="ts">

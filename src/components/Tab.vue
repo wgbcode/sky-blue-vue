@@ -34,6 +34,10 @@ export default class Tab extends Vue {
     this.$store.state.selectedType = item.value;
     this.$store.commit("fetchTags");
   }
+  mounted() {
+    this.$store.state.selectedType = "-";
+    this.$store.commit("fetchTags");
+  }
 }
 </script>
 
