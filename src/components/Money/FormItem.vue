@@ -4,8 +4,8 @@
       <span class="name">{{ this.fieldName }}</span>
       <input
         type="text"
-        :value="value"
         :placeholder="this.placeholder"
+        :value="value"
         @input="onValueChanged($event.target.value)"
       />
     </label>

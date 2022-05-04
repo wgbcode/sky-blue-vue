@@ -32,6 +32,11 @@ const store = new Vuex.Store({
       window.localStorage.setItem("recordList", JSON.stringify(state.recordList))
     },
 
+
+    setShowTagList(state) {
+      let currentLocalTagList = JSON.parse(localStorage.getItem('tagList')!)
+      state.showTagList = currentLocalTagList.filter((t: Tag) => t.type === state.selectedType)
+    },
     fetchTags(state) {
       let localTagList = JSON.parse(localStorage.getItem('tagList') || "[]")
       if (state.selectedType === "-") {
@@ -41,7 +46,7 @@ const store = new Vuex.Store({
           }, { "id": "3", "name": "住房", "icon": "house", "type": "-" }, { "id": "4", "name": "烟酒", "icon": "smoke", "type": "-" }, { "id": "5", "name": "医院", "icon": "hospital", "type": "-" }, { "id": "6", "name": "运动", "icon": "exercise", "type": "-" }, { "id": "7", "name": "旅行", "icon": "travel", "type": "-" }, { "id": "8", "name": "服装", "icon": "cloths", "type": "-" }]
           store.commit('saveTags')
         }
-        state.showTagList = localTagList.filter((t: Tag) => t.type === "-")
+        store.commit('setShowTagList')
       } else {
         if (localTagList.findIndex((t: Tag) => t.type === "+") === -1) {
           state.tagList = [...localTagList, {
@@ -49,27 +54,27 @@ const store = new Vuex.Store({
           }, { "id": "10", "name": "奖金", "icon": "bonus", "type": "+" }, { "id": "11", "name": "兼职", "icon": "part-time-job", "type": "+" }, { "id": "12", "name": "基金", "icon": "fund", "type": "+" }]
           store.commit('saveTags')
         }
-        state.showTagList = localTagList.filter((t: Tag) => t.type === "+")
+        store.commit('setShowTagList')
       }
-    },   // 问题待解决：每次切换路由都要调用一次 fetchTags
+    },
     findTag: (state, id: string) => {
       return state.tagList.filter((tag) => tag.id === id)[0];
     },
-    createTag(state, name: string | null) {
-      if (name) {
-        const message = ((name: string) => {
+    createTag(state, tag) {
+      if (tag.name) {
+        const message = (() => {
           let names = state.tagList.map(tag => tag.name)
-          let type = state.selectedType
-          if (names.indexOf(name) >= 0) {
+          if (names.indexOf(tag.name) >= 0) {
             return "duplicated"
           } else {
             let id = createId()
-            state.tagList.push({ id, name, type })
+            let type = state.selectedType
+            state.tagList.push({ id, name: tag.name, icon: tag.icon, type })
             store.commit('saveTags')
             store.commit('fetchTags')
             return 'success'
           }
-        })(name)
+        })()
         if (message === "duplicated") {
           alert("标签名重复了");
         } else if (message === "success") {

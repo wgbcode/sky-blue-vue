@@ -4,7 +4,7 @@
       <li v-for="tag in value" :key="tag.name" @click="toggle(tag)">
         <Icon
           :name="tag.icon"
-          :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
+          :class="{ selected: selectedTagName.indexOf(tag.name) >= 0 }"
         />
         <span> {{ tag.name }}</span>
       </li>
@@ -26,25 +26,18 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
+import addClass from "@/lib/addClass";
 
 @Component
 export default class Tags extends Vue {
   @Prop(Array) readonly value: string[] | undefined;
-  selectedTags: string[] = [];
+  selectedTagName: string[] = [];
   created() {
     this.$store.commit("fetchTags");
   }
-  toggle(tag: string): void {
-    let index = this.selectedTags.indexOf(tag);
-    if (index < 0 && this.selectedTags.length <= 0) {
-      this.selectedTags.push(tag);
-    } else if (index < 0 && this.selectedTags.length > 0) {
-      this.selectedTags.splice(index, 1);
-      this.selectedTags.push(tag);
-    } else {
-      this.selectedTags.splice(index, 1);
-    }
-    this.$emit("update:selectedTag", this.selectedTags);
+  toggle(tag: Tag): void {
+    addClass(tag.name, this.selectedTagName);
+    this.$emit("update:selectedTag", this.selectedTagName);
   }
 }
 </script>

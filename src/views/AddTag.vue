@@ -3,12 +3,13 @@
     <header class="tagTitle">
       <button @click="goBack">取消</button>
       <div>新增支出类型</div>
-      <button>保存</button>
+      <button @click="createTag(tag)">保存</button>
     </header>
     <FormItem
       fieldName="类别名称"
       placeholder="8个字以内"
       class="inputTagName"
+      :value.sync="tag.name"
     />
     <div class="iconType">
       <div class="iconTitle">类别图标</div>
@@ -16,7 +17,8 @@
         <Icon
           v-for="iconName in iconNameList"
           :name="iconName"
-          value=""
+          :class="{ selected: selectedIconName.indexOf(iconName) >= 0 }"
+          @click="getIconName(iconName)"
           :key="iconName"
         />
         <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
@@ -26,15 +28,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import addClass from "@/lib/addClass";
+import TagHelper from "@/mixins/TagHelper";
+import { Component, Mixins } from "vue-property-decorator";
 
 @Component
-export default class AddTag extends Vue {
+export default class AddTag extends Mixins(TagHelper) {
+  selectedIconName = [];
+  tag: Tag = {
+    id: "",
+    name: "",
+    icon: "",
+    type: "-",
+  };
   get iconNameList() {
     return this.$store.state.iconNameList;
   }
   goBack() {
     this.$router.back();
+  }
+  getIconName(iconName: string) {
+    addClass(iconName, this.selectedIconName);
+    this.tag.icon = iconName;
+    console.log(this.tag.icon);
   }
 }
 </script>
@@ -72,6 +88,11 @@ export default class AddTag extends Vue {
       height: 35px;
       width: 35px;
       margin: 10px 20px;
+      background: #f6f6f6;
+      border-radius: 20px;
+    }
+    .selected {
+      background: #5fab87;
     }
     i {
       width: 35px;
