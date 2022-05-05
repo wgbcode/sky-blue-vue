@@ -1,4 +1,13 @@
 // 需在 .eslintrc.js 中配置
+type RootState = {
+    recordList: RecordItem[],
+    tagList: Tag[],
+    showTagList: Tag[],
+    currentTag?: Tag,
+    selectedType: "-" | "+"
+    iconNameList: string[]
+    selectedTagName: string[]
+}
 type RecordItem = {
     tags: string[];
     notes: string;
@@ -21,12 +30,5 @@ type TagListModel = {
     update: (id: string, name: string) => "success" | 'not found' | 'duplicated'
 }
 
-type RootState = {
-    recordList: RecordItem[],
-    tagList: Tag[],
-    showTagList: Tag[],
-    currentTag?: Tag,
-    selectedType: "-" | "+"
-    iconNameList: string[]
-}
+
 

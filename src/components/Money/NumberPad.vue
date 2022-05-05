@@ -13,10 +13,11 @@
       <button @click="inputContent">7</button>
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
-      <button @click="OK" class="OK">OK</button>
+      <button @click="OK" class="OK"><h3>保存</h3></button>
       <button @click="inputContent" class="zero">0</button>
       <button @click="inputContent">.</button>
     </div>
+    <div class="placeholder"></div>
   </div>
 </template>
 
@@ -68,13 +69,13 @@ export default class NumberPad extends Vue {
   display: flex;
   flex-direction: column;
   .output {
-    font-size: 36px;
-    line-height: 22px;
-    height: 72px;
-    padding: 25px 16px;
+    font-size: 32px;
+    height: 36px;
     text-align: right;
     font-family: Consolas, monospace;
-    background: white;
+    background: inheritc;
+    padding: 5px 20px 45px 0;
+    align-items: center;
   }
   button {
     @extend %clearFix;
@@ -83,44 +84,26 @@ export default class NumberPad extends Vue {
     text-align: center;
     width: 25%;
     border: none;
-    padding: 21px 0;
+    padding: 16px 0;
+    background: white;
+    outline: 1px solid #e8e8e8;
     &.OK {
-      height: 128px;
+      height: 108px;
       float: right;
     }
     &.zero {
       width: 50%;
       float: left;
     }
-    $bg: #f2f2f2;
-    &:nth-child(1) {
-      background: darken($bg, 4%);
-    }
-    &:nth-child(2),
-    &:nth-child(5) {
-      background: darken($bg, 8%);
-    }
-    &:nth-child(3),
-    &:nth-child(6),
-    &:nth-child(9) {
-      background: darken($bg, 12%);
-    }
-    &:nth-child(4),
-    &:nth-child(7),
-    &:nth-child(10) {
-      background: darken($bg, 16%);
-    }
-    &:nth-child(8),
-    &:nth-child(11),
-    &:nth-child(13) {
-      background: darken($bg, 20%);
-    }
-    &:nth-child(14) {
-      background: darken($bg, 24%);
-    }
     &:nth-child(12) {
-      background: darken($bg, 28%);
+      background: #5fb39c;
+      color: white;
     }
+  }
+  .placeholder {
+    background: white;
+    height: 15px;
+    outline: 1px solid #e8e8e8;
   }
 }
 </style>

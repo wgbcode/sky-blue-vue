@@ -91,7 +91,7 @@ export default class AddTag extends Mixins(TagHelper) {
       border-radius: 20px;
     }
     .selected {
-      background: #5fab87;
+      background: #49ad95;
     }
     i {
       width: 35px;

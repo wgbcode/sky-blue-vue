@@ -69,16 +69,16 @@ export default class FormItem extends Vue {
   .inputWrapper {
     margin: 15px 0 5px 0;
     .typeName {
-      padding-right: 10px;
+      padding-right: 16px;
       font-family: $font-hei;
     }
     .dateInput {
-      width: 100px;
-      border: #5fab87;
-      padding: 5px;
+      width: 90px;
+      border: 1px solid #fbfbf1;
       border-radius: 12px;
       text-align: center;
       background: #fbfbf1;
+      padding: 2px 0;
       position: relative;
       &:focus {
         outline: none;
@@ -89,7 +89,7 @@ export default class FormItem extends Vue {
       left: 0px;
       top: 0;
       background: transparency;
-      width: 100px;
+      width: 90px;
       background-image: none;
       padding: 5px;
     }

@@ -31,7 +31,9 @@ import addClass from "@/lib/addClass";
 @Component
 export default class Tags extends Vue {
   @Prop(Array) readonly value: string[] | undefined;
-  selectedTagName: string[] = [];
+ get selectedTagName(){
+   return this.$store.state.selectedTagName
+ }
   created() {
     this.$store.commit("fetchTags");
   }
@@ -76,7 +78,7 @@ export default class Tags extends Vue {
         padding: 5px;
       }
       .selected {
-        background: #5fab87;
+        background: #49ad95;
       }
     }
     i {

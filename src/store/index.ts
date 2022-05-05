@@ -14,7 +14,8 @@ const store = new Vuex.Store({
     showTagList: [],
     currentTag: undefined,
     selectedType: "-",
-    iconNameList: [...iconNameList]
+    iconNameList: [...iconNameList],
+    selectedTagName: []
   } as RootState,
 
   mutations: { // methods

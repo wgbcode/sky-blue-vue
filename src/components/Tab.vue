@@ -44,7 +44,7 @@ export default class Tab extends Vue {
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
 .tabWrapper {
-  background: #60aa87;
+  background: #49ad95;
   .tab {
     font-size: 16px;
     line-height: 22px;

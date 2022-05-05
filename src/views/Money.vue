@@ -24,13 +24,6 @@ import NumberPad from "@/components/Money/NumberPad.vue";
   components: { Tags, Tab, NumberPad },
 })
 export default class Money extends Vue {
-  get recordList() {
-    return this.$store.state.recordList;
-  }
-  get showTagList() {
-    return this.$store.state.showTagList;
-  }
-  recordTypeList = recordTypeList;
   record: RecordItem = {
     tags: [],
     notes: "",
@@ -38,6 +31,13 @@ export default class Money extends Vue {
     amount: 0,
     createdAt: new Date().toISOString(),
   };
+  get recordList() {
+    return this.$store.state.recordList;
+  }
+  get showTagList() {
+    return this.$store.state.showTagList;
+  }
+  recordTypeList = recordTypeList;
   created() {
     this.$store.commit("fetchTags");
     this.$store.commit("fetchRecords");
@@ -45,6 +45,9 @@ export default class Money extends Vue {
   saveRecord() {
     this.record.createdAt = new Date().toISOString();
     this.$store.commit("createRecord", this.record);
+    this.record.notes = "";
+    this.record.createdAt = new Date().toISOString();
+    this.$store.state.selectedTagName = [];
   }
 }
 </script>
