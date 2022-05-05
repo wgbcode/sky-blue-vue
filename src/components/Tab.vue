@@ -1,13 +1,18 @@
 <template>
-  <div class="tabWrapper">
-    <ul class="tab">
+  <div :class="classPrefix ? [classPrefix] + '-tabWrapper' : 'tabWrapper'">
+    <ul :class="classPrefix ? [classPrefix] + '-tab' : 'tab'">
       <li
         v-for="item in dataSource"
         :key="item.value"
         @click="select(item)"
         :class="liClass(item)"
       >
-        {{ item.text }}
+        <span>{{ item.text }} </span>
+        <span
+          v-show="classPrefix ? true : false"
+          :class="item.value === '-' ? 'outSum' : 'inSum'"
+          >100.69</span
+        >
       </li>
     </ul>
   </div>
@@ -25,7 +30,7 @@ export default class Tab extends Vue {
   @Prop(String) readonly classPrefix?: string;
   liClass(item: DataSourceItem) {
     return {
-      [this.classPrefix + "-item-tab"]: this.classPrefix,
+      [this.classPrefix + "-li"]: this.classPrefix,
       selected: item.value === this.value,
     };
   }
@@ -50,23 +55,18 @@ export default class Tab extends Vue {
     line-height: 22px;
     font-family: $font-hei;
     display: flex;
-    padding: 20px 0 0 0;
+    justify-content: center;
+    padding: 30px 0 15px 0;
     li {
+      border: 1px solid white;
+      padding: 3px 25px;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
       color: white;
-      margin: 0px 15px;
-      padding: 0 0 5px 0;
-      &.selected::after {
-        position: absolute;
-        height: 3px;
-        width: 100%;
+      &.selected {
         background: white;
-        content: "";
-        bottom: 0;
-        left: 0;
+        color: #49ad95;
       }
     }
   }

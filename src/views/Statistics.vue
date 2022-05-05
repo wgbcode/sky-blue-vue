@@ -1,6 +1,15 @@
 <template>
   <Layout>
+    <button @click="popPage" class="selectDate">
+      <span>2022年5月</span>
+      <Icon name="popup" />
+    </button>
+    <div class="popPage" v-show="pageValue">
+      <header>支出</header>
+      <div>1111</div>
+    </div>
     <Tab class-prefix="type" :data-source="recordTypeList" :value.sync="type" />
+    <div>图</div>
     <ol class="records" v-if="result.length !== {}">
       <li v-for="group in result" :key="group.id">
         <h3 class="title">{{ beautify(group.title) }}</h3>
@@ -29,6 +38,7 @@ import clone from "@/lib/clone";
   components: { Tab, Layout },
 })
 export default class Statistics extends Vue {
+  pageValue = false;
   type = "-";
   recordTypeList = recordTypeList;
   get recordList() {
@@ -69,23 +79,82 @@ export default class Statistics extends Vue {
   created() {
     this.$store.commit("fetchRecords");
   }
+  popPage() {
+    this.pageValue = true;
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-::v-deep .type-item-tab {
+.selectDate {
+  background: #49ad95;
+  font-size: 18px;
+  padding: 35px 0 15px 0;
+  border: none;
+  color: white;
+  z-index: 1;
+  span {
+    padding-right: 5px;
+  }
+  .icon {
+    color: white;
+    height: 15px;
+  }
+}
+.popPage {
+  position: relative;
+  header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 200px;
+    width: 100%;
+    background: yellow;
+    z-index: 1;
+  }
+  div {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+}
+::v-deep .type-tabWrapper {
   background: white;
-  &.selected {
-    background: bisque;
-    &::after {
-      display: none;
+  color: #535152;
+  .type-tab {
+    font-size: 16px;
+    line-height: 22px;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0 20px 0;
+    .type-li {
+      padding: 0px 75px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .outSum {
+        color: #49ad95;
+        padding: 0 0 5px 0;
+      }
+      .inSum {
+        color: #f71061;
+        padding: 0 0 5px 0;
+      }
+      &.selected::after {
+        display: block;
+        content: "";
+        clear: both;
+        background: #49ad95;
+        height: 3px;
+        width: 80%;
+      }
     }
   }
 }
-::v-deep .interval-item-tab {
-  background: white;
-  height: 48px;
-}
+
 .title {
   font-size: 17px;
   line-height: 22px;

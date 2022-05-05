@@ -13,12 +13,12 @@ type RecordItem = {
     notes: string;
     type: string;
     amount: number;
-    createdAt?: string;
+    createdAt: string;
 };
 type Tag = {
     id: string,
     name: string
-    icon?: string
+    icon: string
     type: "-" | "+"
 }
 type TagListModel = {

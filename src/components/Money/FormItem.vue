@@ -5,7 +5,7 @@
         <span class="typeName">{{ this.fieldName }}</span>
         <input
           :type="type || 'text'"
-          :value="x(value)"
+          :value="changeDateStyle(value)"
           @input="onValueChanged($event.target.value)"
           class="dateInput"
         />
@@ -38,7 +38,7 @@ export default class FormItem extends Vue {
   onValueChanged(value: string): void {
     this.$emit("update:value", value);
   }
-  x(isoString: string) {
+  changeDateStyle(isoString: string) {
     return dayjs(isoString).format("YYYY-MM-DD");
   }
 }

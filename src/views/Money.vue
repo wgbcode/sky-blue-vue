@@ -19,6 +19,7 @@ import Tags from "@/components/Money/Tags.vue";
 import Tab from "@/components/Tab.vue";
 import recordTypeList from "@/constants/recordTypeList";
 import NumberPad from "@/components/Money/NumberPad.vue";
+import dayjs from "dayjs";
 
 @Component({
   components: { Tags, Tab, NumberPad },
@@ -29,25 +30,32 @@ export default class Money extends Vue {
     notes: "",
     type: "-",
     amount: 0,
-    createdAt: new Date().toISOString(),
+    createdAt: dayjs(new Date().toISOString()).format("YYYY-MM-DD"),
   };
+  recordTypeList = recordTypeList;
   get recordList() {
     return this.$store.state.recordList;
   }
   get showTagList() {
     return this.$store.state.showTagList;
   }
-  recordTypeList = recordTypeList;
   created() {
     this.$store.commit("fetchTags");
     this.$store.commit("fetchRecords");
   }
   saveRecord() {
-    this.record.createdAt = new Date().toISOString();
-    this.$store.commit("createRecord", this.record);
-    this.record.notes = "";
-    this.record.createdAt = new Date().toISOString();
-    this.$store.state.selectedTagName = [];
+    if (this.record.tags.length <= 0) {
+      alert("请选择类型");
+    } else if (this.record.amount === 0) {
+      alert("请输入金额");
+    } else {
+      this.$store.commit("createRecord", this.record);
+      this.record.notes = "";
+      this.record.createdAt = dayjs(new Date().toISOString()).format(
+        "YYYY-MM-DD"
+      );
+      this.$store.state.selectedTagName = [];
+    }
   }
 }
 </script>
