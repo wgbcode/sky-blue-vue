@@ -5,12 +5,13 @@ import Component from 'vue-class-component';
 @Component
 export default class TagHelper extends Vue {
     createTag(tag: Tag) {
-        if (tag.icon === "") {
-            alert("请选择图标")
-        } else if (tag.name === "") {
+        if (tag.name === "") {
             alert("请输入名字")
+        } else if (tag.icon === "") {
+            alert("请选择图标")
         } else {
             this.$store.commit('createTag', tag);
+            this.$router.back()
         }
     }
 }

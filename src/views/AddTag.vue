@@ -50,7 +50,6 @@ export default class AddTag extends Mixins(TagHelper) {
   getIconName(iconName: string) {
     addClass(iconName, this.selectedIconName);
     this.tag.icon = iconName;
-    console.log(this.tag.icon);
   }
 }
 </script>

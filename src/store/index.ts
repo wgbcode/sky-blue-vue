@@ -4,8 +4,8 @@ import clone from "@/lib/clone"
 import createId from "@/lib/createId"
 import router from "@/router"
 
-Vue.use(Vuex)  // 把 store 绑到 Vue.prototype.$store = store
-let iconNameList = ["eat", "cloths", "exercise", "fund", "hospital", "house", "part-time-job", "salary", "smoke", "traffic", "travel", "airplane", "pangs", "electricity", "present", "snacks", "others"]
+Vue.use(Vuex)
+let iconNameList = ["eat", "cloths", "exercise", "fund", "hospital", "house", "part-time-job", "salary", "smoke", "traffic", "travel", "airplane", "pangs", "electricity", "present", "snacks", "educate", "teacher", "book", "group", "earth", "heart", "train", "trees", "umbrella", "tableware", "eyeglass", "dress", "cycling", "change", "trigon", "clearing", "others"]
 
 const store = new Vuex.Store({
   state: {

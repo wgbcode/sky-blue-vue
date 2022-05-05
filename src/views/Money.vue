@@ -2,9 +2,10 @@
   <Layout>
     <Tab :data-source="recordTypeList" :value.sync="record.type" />
     <Tags :value="showTagList" :selectedTag.sync="record.tags" />
+    <FormItem type="date" :value.sync="record.createdAt" field-name="时间" />
     <FormItem
       field-name="备注"
-      placeholder="在这里输入备注"
+      placeholder="请在这里输入备注"
       :value.sync="record.notes"
     />
     <NumberPad :value.sync="record.amount" @submit="saveRecord" />
@@ -35,6 +36,7 @@ export default class Money extends Vue {
     notes: "",
     type: "-",
     amount: 0,
+    createdAt: new Date().toISOString(),
   };
   created() {
     this.$store.commit("fetchTags");
