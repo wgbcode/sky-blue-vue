@@ -55,6 +55,7 @@ export default class Money extends Vue {
         "YYYY-MM-DD"
       );
       this.$store.state.selectedTagName = [];
+      alert("已成功保存");
     }
   }
 }

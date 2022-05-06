@@ -1,9 +1,6 @@
 <template>
   <Layout>
-    <button @click="popPage" class="selectDate">
-      <span>2022年5月</span>
-      <Icon name="popup" />
-    </button>
+    <FormItem type="month" :value.sync="x" @click="popPage" />
     <div class="popPage" v-show="pageValue">
       <header>支出</header>
       <div>1111</div>
@@ -40,6 +37,7 @@ import clone from "@/lib/clone";
 export default class Statistics extends Vue {
   pageValue = false;
   type = "-";
+  x = "2021-05";
   recordTypeList = recordTypeList;
   get recordList() {
     return this.$store.state.recordList;
@@ -86,21 +84,6 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.selectDate {
-  background: #49ad95;
-  font-size: 18px;
-  padding: 35px 0 15px 0;
-  border: none;
-  color: white;
-  z-index: 1;
-  span {
-    padding-right: 5px;
-  }
-  .icon {
-    color: white;
-    height: 15px;
-  }
-}
 .popPage {
   position: relative;
   header {

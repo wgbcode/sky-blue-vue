@@ -1,13 +1,27 @@
 <template>
   <div>
     <label class="formItem">
-      <div class="inputWrapper" v-if="type === 'date'">
-        <span class="typeName">{{ this.fieldName }}</span>
+      <div class="dateInputWrapper" v-if="type === 'date'">
+        <span class="dateName">{{ this.fieldName }}</span>
         <input
           :type="type || 'text'"
           :value="changeDateStyle(value)"
           @input="onValueChanged($event.target.value)"
           class="dateInput"
+          min="2015-01-31"
+          max="2025-12-31"
+          pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+        />
+      </div>
+      <div class="monthInputWrapper" v-else-if="type === 'month'">
+        <input
+          :type="type || 'text'"
+          :value="value"
+          @input="onValueChanged($event.target.value)"
+          class="monthInput"
+          min="2015-01"
+          max="2025-12"
+          pattern="[0-9]{4}-[0-9]{2}"
         />
       </div>
       <div v-else>
@@ -48,12 +62,11 @@ export default class FormItem extends Vue {
 @import "~@/assets/style/helper.scss";
 .formItem {
   font-size: 14px;
-  padding-left: 16px;
   display: flex;
   align-items: center;
   background: white;
   .textName {
-    padding-right: 16px;
+    padding: 0 16px;
     font-family: $font-hei;
   }
   .textInput {
@@ -66,14 +79,15 @@ export default class FormItem extends Vue {
   .textInput:focus {
     outline: none;
   }
-  .inputWrapper {
+
+  .dateInputWrapper {
     margin: 15px 0 5px 0;
-    .typeName {
-      padding-right: 16px;
+    .dateName {
+      padding: 0 16px;
       font-family: $font-hei;
     }
     .dateInput {
-      width: 90px;
+      width: 100px;
       border: 1px solid #fbfbf1;
       border-radius: 12px;
       text-align: center;
@@ -88,10 +102,33 @@ export default class FormItem extends Vue {
       position: absolute;
       left: 0px;
       top: 0;
-      background: transparency;
       width: 90px;
       background-image: none;
       padding: 5px;
+    }
+  }
+
+  .monthInputWrapper {
+    background: #49ad95;
+    padding: 35px 0 15px 0;
+    border: none;
+    color: white;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .monthInput {
+      font-size: 18px;
+      position: relative;
+      background: #49ad95;
+      border: none;
+      color: white;
+      display: flex;
+      width: 120px;
+      justify-content: center;
+      &:focus {
+        outline: none;
+      }
     }
   }
 }
