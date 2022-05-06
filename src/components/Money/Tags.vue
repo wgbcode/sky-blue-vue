@@ -31,15 +31,16 @@ import addClass from "@/lib/addClass";
 @Component
 export default class Tags extends Vue {
   @Prop(Array) readonly value: string[] | undefined;
- get selectedTagName(){
-   return this.$store.state.selectedTagName
- }
-  created() {
-    this.$store.commit("fetchTags");
+  get selectedTagName() {
+    return this.$store.state.selectedTagName;
   }
+  // created() {
+  //   this.$store.commit("fetchTags");
+  // }
   toggle(tag: Tag): void {
     addClass(tag.name, this.selectedTagName);
     this.$emit("update:selectedTag", this.selectedTagName);
+    this.$emit("update:selectedIcon", tag.icon);
   }
 }
 </script>

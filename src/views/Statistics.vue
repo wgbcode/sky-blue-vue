@@ -1,13 +1,22 @@
 <template>
   <Layout>
-    <FormItem type="month" :value.sync="x" @click="popPage" />
-    <div class="popPage" v-show="pageValue">
-      <header>支出</header>
-      <div>1111</div>
-    </div>
-    <Tab class-prefix="type" :data-source="recordTypeList" :value.sync="type" />
+    {{ monthRecordList }}
+    <FormItem type="month" :value.sync="monthTime" />
+    <Tab
+      class-prefix="type"
+      :data-source="recordTypeList"
+      :value.sync="type"
+      :recordList="monthRecordList"
+    />
     <div>图</div>
-    <ol class="records" v-if="result.length !== {}">
+    <ol>
+      <div>支出排行榜</div>
+      <li>
+        <Icon name="money" />
+        <div>内容</div>
+      </li>
+    </ol>
+    <!-- <ol class="records" v-if="result.length !== {}">
       <li v-for="group in result" :key="group.id">
         <h3 class="title">{{ beautify(group.title) }}</h3>
         <div v-for="item in group.items" :key="item.tags.id" class="record">
@@ -19,17 +28,18 @@
     </ol>
     <div v-else class="noresult">
       <span> 目标没有相关记录</span>
-    </div>
+    </div> -->
   </Layout>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import Tab from "@/components/Tab.vue";
 import Layout from "@/components/Layout.vue";
 import recordTypeList from "@/constants/recordTypeList";
 import dayjs from "dayjs";
 import clone from "@/lib/clone";
+import changeDateStyle from "@/lib/changeDateStyle";
 
 @Component({
   components: { Tab, Layout },
@@ -37,8 +47,34 @@ import clone from "@/lib/clone";
 export default class Statistics extends Vue {
   pageValue = false;
   type = "-";
-  x = "2021-05";
   recordTypeList = recordTypeList;
+  monthTime = changeDateStyle("YYYY-MM");
+  monthRecordList = this.recordList.filter(
+    (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
+  ); // 第一次未执行（刷新），但为什么切换路由时会执行？
+  sameRecordList: any = [];
+  @Watch("monthTime")
+  onMonthTimeValueChange() {
+    this.monthRecordList = this.recordList.filter(
+      (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
+    );
+    console.log(this.monthRecordList);
+    let container = [];
+    let newMonthRecordList = this.monthRecordList;
+    console.log(newMonthRecordList);
+    container.push(newMonthRecordList[0]);
+    for (let j = 0; j <= newMonthRecordList.length; j++) {
+      console.log(newMonthRecordList[0].tag[0]);
+      if (newMonthRecordList[0].tag[0] === newMonthRecordList[j + 1].tag[0]) {
+        container.push(newMonthRecordList[j + 1]);
+        newMonthRecordList.splice(j, 0);
+        if (j === newMonthRecordList.length) {
+          this.sameRecordList.push(container);
+        }
+      }
+    }
+  } // BUG:在本页面刷新时无法读取 selectedRecordList
+
   get recordList() {
     return this.$store.state.recordList;
   }
@@ -59,50 +95,28 @@ export default class Statistics extends Vue {
     }
     return hashTable;
   }
-  beautify(string: string) {
-    const day = dayjs(string);
-    const now = dayjs();
-    if (day.isSame(now, "day")) {
-      return "今天";
-    } else if (day.isSame(now.subtract(1, "day"), "day")) {
-      return "昨天";
-    } else if (day.isSame(now.subtract(2, "day"), "day")) {
-      return "前天";
-    } else if (day.isSame(now, "year")) {
-      return day.format("M月D日");
-    } else {
-      return day.format("YYYY年M月D日");
-    }
-  }
-  created() {
-    this.$store.commit("fetchRecords");
-  }
-  popPage() {
-    this.pageValue = true;
-  }
+  // beautify(string: string) {
+  //   const day = dayjs(string);
+  //   const now = dayjs();
+  //   if (day.isSame(now, "day")) {
+  //     return "今天";
+  //   } else if (day.isSame(now.subtract(1, "day"), "day")) {
+  //     return "昨天";
+  //   } else if (day.isSame(now.subtract(2, "day"), "day")) {
+  //     return "前天";
+  //   } else if (day.isSame(now, "year")) {
+  //     return day.format("M月D日");
+  //   } else {
+  //     return day.format("YYYY年M月D日");
+  //   }
+  // }
+  // created() {
+  //   this.$store.commit("fetchRecords");
+  // } // 如何设置在每次刷新页面时都调用 fetchReords
 }
 </script>
 
 <style lang="scss" scoped>
-.popPage {
-  position: relative;
-  header {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 200px;
-    width: 100%;
-    background: yellow;
-    z-index: 1;
-  }
-  div {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-  }
-}
 ::v-deep .type-tabWrapper {
   background: white;
   color: #535152;
@@ -118,21 +132,24 @@ export default class Statistics extends Vue {
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      position: relative;
       .outSum {
         color: #49ad95;
-        padding: 0 0 5px 0;
+        padding: 5px 0 5px 0;
       }
       .inSum {
         color: #f71061;
-        padding: 0 0 5px 0;
+        padding: 5px 0 5px 0;
       }
       &.selected::after {
+        position: absolute;
         display: block;
         content: "";
         clear: both;
         background: #49ad95;
+        bottom: 0;
         height: 3px;
-        width: 80%;
+        width: 15%;
       }
     }
   }

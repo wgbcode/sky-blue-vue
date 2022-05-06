@@ -3,9 +3,10 @@ import Vuex from 'vuex'
 import clone from "@/lib/clone"
 import createId from "@/lib/createId"
 import router from "@/router"
+import defaultTag from '@/constants/defaultTag'
+import iconNameList from "@/constants/iconNameList"
 
 Vue.use(Vuex)
-let iconNameList = ["eat", "cloths", "exercise", "fund", "hospital", "house", "part-time-job", "salary", "smoke", "traffic", "travel", "airplane", "pangs", "electricity", "present", "snacks", "educate", "teacher", "book", "group", "earth", "heart", "train", "trees", "umbrella", "tableware", "eyeglass", "dress", "cycling", "change", "trigon", "clearing", "others"]
 
 const store = new Vuex.Store({
   state: {
@@ -18,12 +19,14 @@ const store = new Vuex.Store({
     selectedTagName: []
   } as RootState,
 
-  mutations: { // methods
+  mutations: {
     setCurrentTag(state, id: string) {
       state.currentTag = state.tagList.filter(t => t.id === id)[0];
     },
     fetchRecords(state) {
       state.recordList = JSON.parse(window.localStorage.getItem("recordList") || "[]")
+      console.log(state.recordList);
+
     },
     createRecord(state, record) {
       state.recordList.push(clone(record))
@@ -40,23 +43,11 @@ const store = new Vuex.Store({
     },
     fetchTags(state) {
       let localTagList = JSON.parse(localStorage.getItem('tagList') || "[]")
-      if (state.selectedType === "-") {
-        if (localTagList.findIndex((t: Tag) => t.type === "-") === -1) {
-          state.tagList = [...localTagList, { "id": "1", "name": "餐饮", "icon": 'eat', "type": "-" }, {
-            "id": "2", "name": "交通", "icon": "traffic", "type": "-"
-          }, { "id": "3", "name": "住房", "icon": "house", "type": "-" }, { "id": "4", "name": "烟酒", "icon": "smoke", "type": "-" }, { "id": "5", "name": "医院", "icon": "hospital", "type": "-" }, { "id": "6", "name": "运动", "icon": "exercise", "type": "-" }, { "id": "7", "name": "旅行", "icon": "travel", "type": "-" }, { "id": "8", "name": "服装", "icon": "cloths", "type": "-" }]
-          store.commit('saveTags')
-        }
-        store.commit('setShowTagList')
-      } else {
-        if (localTagList.findIndex((t: Tag) => t.type === "+") === -1) {
-          state.tagList = [...localTagList, {
-            "id": "9", "name": "工资", "icon": "salary", "type": "+"
-          }, { "id": "10", "name": "奖金", "icon": "bonus", "type": "+" }, { "id": "11", "name": "兼职", "icon": "part-time-job", "type": "+" }, { "id": "12", "name": "基金", "icon": "fund", "type": "+" }]
-          store.commit('saveTags')
-        }
-        store.commit('setShowTagList')
+      if (localTagList.length <= 0) {
+        state.tagList = defaultTag
+        store.commit('saveTags')
       }
+      store.commit('setShowTagList')
     },
     findTag: (state, id: string) => {
       return state.tagList.filter((tag) => tag.id === id)[0];
@@ -72,7 +63,7 @@ const store = new Vuex.Store({
             let type = state.selectedType
             state.tagList.push({ id, name: tag.name, icon: tag.icon, type })
             store.commit('saveTags')
-            store.commit('fetchTags')
+            store.commit('setShowTagList')
             return 'success'
           }
         })()

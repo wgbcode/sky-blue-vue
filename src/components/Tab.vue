@@ -1,5 +1,6 @@
 <template>
   <div :class="classPrefix ? [classPrefix] + '-tabWrapper' : 'tabWrapper'">
+    {{ recordList }}
     <ul :class="classPrefix ? [classPrefix] + '-tab' : 'tab'">
       <li
         v-for="item in dataSource"
@@ -11,8 +12,16 @@
         <span
           v-show="classPrefix ? true : false"
           :class="item.value === '-' ? 'outSum' : 'inSum'"
-          >100.69</span
-        >
+          >{{
+            recordList
+              ? sum(
+                  recordList
+                    .filter((r) => r.type === item.value)
+                    .map((r) => r.amount)
+                )
+              : "0.00"
+          }}
+        </span>
       </li>
     </ul>
   </div>
@@ -28,6 +37,7 @@ export default class Tab extends Vue {
   @Prop({ required: true, type: Array }) readonly dataSource!: DataSourceItem[];
   @Prop(String) readonly value!: string;
   @Prop(String) readonly classPrefix?: string;
+  @Prop(Array) readonly recordList?: RecordItem[];
   liClass(item: DataSourceItem) {
     return {
       [this.classPrefix + "-li"]: this.classPrefix,
@@ -39,9 +49,17 @@ export default class Tab extends Vue {
     this.$store.state.selectedType = item.value;
     this.$store.commit("fetchTags");
   }
-  mounted() {
-    this.$store.state.selectedType = "-";
-    this.$store.commit("fetchTags");
+  // mounted() {
+  //   this.$store.state.selectedType = "-";
+  //   // this.$store.commit("fetchTags");
+  // }
+  sum(arr: string[]) {
+    let sum = eval(arr.join("+"));
+    if (sum === undefined) {
+      return "0.00";
+    } else {
+      return sum.toFixed(2);
+    }
   }
 }
 </script>

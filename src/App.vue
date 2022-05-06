@@ -38,3 +38,17 @@ a {
 }
 </style>
 
+<script lang="ts">
+import Vue from "vue";
+export default Vue.extend({
+  created() {
+    window.addEventListener("load", () => {
+      this.$store.commit("fetchTags");
+      this.$store.commit("fetchRecords");
+      console.log("执行了");
+    });
+  }, // 是否起作用了？
+});
+</script>
+
+

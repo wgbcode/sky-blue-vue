@@ -45,10 +45,9 @@ import dayjs from "dayjs";
 @Component
 export default class FormItem extends Vue {
   @Prop({ default: "" }) readonly value!: string;
-  @Prop({ required: true }) fieldName!: string;
+  @Prop() fieldName?: string;
   @Prop() placeholder?: string;
   @Prop() type?: string;
-
   onValueChanged(value: string): void {
     this.$emit("update:value", value);
   }
@@ -97,14 +96,14 @@ export default class FormItem extends Vue {
       &:focus {
         outline: none;
       }
-    }
-    input::-webkit-calendar-picker-indicator {
-      position: absolute;
-      left: 0px;
-      top: 0;
-      width: 90px;
-      background-image: none;
-      padding: 5px;
+      &::-webkit-calendar-picker-indicator {
+        position: absolute;
+        left: 0px;
+        top: 0;
+        width: 90px;
+        background-image: none;
+        padding: 5px;
+      }
     }
   }
 

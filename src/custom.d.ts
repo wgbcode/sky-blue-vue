@@ -9,17 +9,18 @@ type RootState = {
     selectedTagName: string[]
 }
 type RecordItem = {
-    tags: string[];
+    tag: string[];
     notes: string;
     type: string;
     amount: number;
     createdAt: string;
+    icon: string
 };
 type Tag = {
     id: string,
     name: string
     icon: string
-    type: "-" | "+"
+    type: string
 }
 type TagListModel = {
     data: tag[],
