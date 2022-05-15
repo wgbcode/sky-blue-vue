@@ -6,7 +6,7 @@
       class-prefix="type"
       :data-source="recordTypeList"
       :value.sync="type"
-      :recordList="monthRecordList"
+      :monthRecordList="monthRecordList"
     />
     <div>图</div>
     <ol>

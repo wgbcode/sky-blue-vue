@@ -2,7 +2,7 @@
   <div>
     <label class="formItem">
       <div class="dateInputWrapper" v-if="type === 'date'">
-        <span class="dateName">{{ this.fieldName }}</span>
+        <span class="dateName">{{ fieldName }}</span>
         <input
           :type="type || 'text'"
           :value="changeDateStyle(value)"
@@ -25,12 +25,12 @@
         />
       </div>
       <div v-else>
-        <span class="textName">{{ this.fieldName }}</span>
+        <span class="textName">{{ fieldName }}</span>
         <input
           :type="type || 'text'"
           :value="value"
           @input="onValueChanged($event.target.value)"
-          :placeholder="this.placeholder"
+          :placeholder="placeholder"
           class="textInput"
         />
       </div>

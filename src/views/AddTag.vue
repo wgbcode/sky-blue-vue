@@ -34,7 +34,7 @@ import { Component, Mixins } from "vue-property-decorator";
 
 @Component
 export default class AddTag extends Mixins(TagHelper) {
-  selectedIconName = [];
+  selectedIconName:any = [];
   tag: Tag = {
     id: "",
     name: "",

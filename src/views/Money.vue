@@ -43,12 +43,8 @@ export default class Money extends Vue {
     return this.$store.state.recordList;
   }
   get showTagList() {
-    return this.$store.state.showTagList;
+    return this.$store.state.showTagList
   }
-  // created() {
-  //   this.$store.commit("fetchTags");
-  //   this.$store.commit("fetchRecords");
-  // } // 删除是否有影响？
   saveRecord() {
     if (this.record.tag.length <= 0) {
       alert("请选择类型");

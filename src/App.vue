@@ -47,7 +47,7 @@ export default Vue.extend({
       this.$store.commit("fetchRecords");
       console.log("执行了");
     });
-  }, // 是否起作用了？
+  }, 
 });
 </script>
 
