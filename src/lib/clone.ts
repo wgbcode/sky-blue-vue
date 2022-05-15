@@ -1,5 +1,5 @@
 function clone(data: RecordItem) {
-    return JSON.parse(JSON.stringify(data))
+  return JSON.parse(JSON.stringify(data));
 }
 
-export default clone
+export default clone;

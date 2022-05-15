@@ -1,6 +1,5 @@
 <template>
   <Layout>
-    {{ monthRecordList }}
     <FormItem type="month" :value.sync="monthTime" />
     <Tab
       class-prefix="type"
@@ -33,13 +32,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
-import Tab from "@/components/Tab.vue";
 import Layout from "@/components/Layout.vue";
+import Tab from "@/components/Tab.vue";
 import recordTypeList from "@/constants/recordTypeList";
-import dayjs from "dayjs";
-import clone from "@/lib/clone";
 import changeDateStyle from "@/lib/changeDateStyle";
+import clone from "@/lib/clone";
+import dayjs from "dayjs";
+import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component({
   components: { Tab, Layout },
@@ -55,46 +54,58 @@ export default class Statistics extends Vue {
   sameRecordList: any = [];
   @Watch("monthTime")
   onMonthTimeValueChange() {
+    this.sameRecordList.splice(0);
     this.monthRecordList = this.recordList.filter(
       (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
     );
-    console.log(this.monthRecordList);
     let container = [];
     let newMonthRecordList = this.monthRecordList;
-    console.log(newMonthRecordList);
-    container.push(newMonthRecordList[0]);
-    for (let j = 0; j <= newMonthRecordList.length; j++) {
-      console.log(newMonthRecordList[0].tag[0]);
-      if (newMonthRecordList[0].tag[0] === newMonthRecordList[j + 1].tag[0]) {
-        container.push(newMonthRecordList[j + 1]);
-        newMonthRecordList.splice(j, 0);
-        if (j === newMonthRecordList.length) {
-          this.sameRecordList.push(container);
+    let count = newMonthRecordList.length;
+    for (let i = 0; i < count; i) {
+      container.push(newMonthRecordList[0]);
+      for (let j = 0; j < count - 1; j++) {
+        let index = j + 1;
+        if (
+          newMonthRecordList.length !== 0 &&
+          newMonthRecordList[0].tag[0] === newMonthRecordList[index].tag[0]
+        ) {
+          {
+            container.push(newMonthRecordList[index]);
+            newMonthRecordList.splice(index, 1);
+            j -= 1;
+            count -= 1;
+          }
         }
       }
+      this.sameRecordList.push(container);
+      newMonthRecordList.splice(0, 1);
+      count -= 1;
+      container.splice(0);
     }
+    console.log("this.sameRecordList");
+    console.log(this.sameRecordList);
   } // BUG:在本页面刷新时无法读取 selectedRecordList
 
   get recordList() {
     return this.$store.state.recordList;
   }
-  get result() {
-    let { recordList } = this;
-    let newRecordList = clone(recordList)
-      .filter((item: { type: string }) => item.type === this.type)
-      .sort(
-        (a: RecordItem, b: RecordItem) =>
-          dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
-      );
-    let hashTable: { [key: string]: { title: string; items: RecordItem[] } } =
-      {};
-    for (let i = 0; i < newRecordList.length; i++) {
-      let [date] = newRecordList[i].createdAt!.split("T");
-      hashTable[date] = hashTable[date] || { title: date, items: [] };
-      hashTable[date].items.push(newRecordList[i]);
-    }
-    return hashTable;
-  }
+  // get result() {
+  //   let { recordList } = this
+  //   let newRecordList = clone(recordList)
+  //     .filter((item: { type: string }) => item.type === this.type)
+  //     .sort(
+  //       (a: RecordItem, b: RecordItem) =>
+  //         dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
+  //     )
+  //   let hashTable: { [key: string]: { title: string; items: RecordItem[] } } =
+  //     {}
+  //   for (let i = 0; i < newRecordList.length; i++) {
+  //     let [date] = newRecordList[i].createdAt!.split('T')
+  //     hashTable[date] = hashTable[date] || { title: date, items: [] }
+  //     hashTable[date].items.push(newRecordList[i])
+  //   }
+  //   return hashTable
+  // }
   // beautify(string: string) {
   //   const day = dayjs(string);
   //   const now = dayjs();

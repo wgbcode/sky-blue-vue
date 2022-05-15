@@ -1,6 +1,5 @@
 <template>
   <div :class="classPrefix ? [classPrefix] + '-tabWrapper' : 'tabWrapper'">
-    {{ monthRecordList }}
     <ul :class="classPrefix ? [classPrefix] + '-tab' : 'tab'">
       <li
         v-for="item in dataSource"
@@ -56,7 +55,7 @@ export default class Tab extends Vue {
     } else {
       return sum.toFixed(2);
     }
-    }
+  }
 }
 </script>
 
