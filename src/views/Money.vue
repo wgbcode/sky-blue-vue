@@ -1,6 +1,5 @@
 <template>
   <Layout>
-    {{ record }}
     <Tab :data-source="recordTypeList" :value.sync="record.type" />
     <Tags
       :value="showTagList"

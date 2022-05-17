@@ -53,8 +53,6 @@ export default class Tab extends Vue {
   }
   sum(arr: number[]) {
     let sum = eval(arr.join("+"));
-    console.log(this.monthRecordList);
-
     if (sum === undefined) {
       return "0.00";
     } else {

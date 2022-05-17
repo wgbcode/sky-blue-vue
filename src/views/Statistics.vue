@@ -8,26 +8,6 @@
       :monthRecordList="monthRecordList"
     />
     <div>图</div>
-    <!-- <ol v-for="item in sameMonthRecordList" :key="item[0].tag">
-      <div>支出排行榜</div>
-      <li>
-        <Icon name="money" />
-        <div>{{ item }}</div>
-      </li>
-    </ol> -->
-    <!-- <ol class="records" v-if="result.length !== {}">
-      <li v-for="group in result" :key="group.id">
-        <h3 class="title">{{ beautify(group.title) }}</h3>{{}}
-        <div v-for="item in group.items" :key="item.tags.id" class="record">
-          <span> {{ item.tags[0].name }}</span>
-          <span class="notes">{{ item.notes }}</span>
-          <span>￥{{ item.amount }}</span>
-        </div>
-      </li>
-    </ol>
-    <div v-else class="noresult">
-      <span> 目标没有相关记录</span>
-    </div> -->
   </Layout>
 </template>
 
@@ -36,7 +16,6 @@ import Layout from "@/components/Layout.vue";
 import Tab from "@/components/Tab.vue";
 import recordTypeList from "@/constants/recordTypeList";
 import changeDateStyle from "@/lib/changeDateStyle";
-// import dayjs from "dayjs";
 import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component({
@@ -49,91 +28,47 @@ export default class Statistics extends Vue {
   monthTime = changeDateStyle("YYYY-MM");
   monthRecordList = this.recordList.filter(
     (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
-  ); // 第一次未执行（刷新），但为什么切换路由时会执行？
+  ); // BUG：单独在此页面刷新时无法加载数据，monthRecordList = []
   sameMonthRecordList: any = [];
   container: any = [];
 
   get recordList() {
     return this.$store.state.recordList;
   }
-
   @Watch("monthTime")
   onMonthTimeValueChange() {
     this.monthRecordList = this.recordList.filter(
       (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
     );
-    // this.sameMonthRecordList.splice(0);
-    // let newMonthRecordList = this.monthRecordList;
-    // let count = newMonthRecordList.length;
-    // for (let i = 0; i < count; i) {
-    //   console.log("newMonthRecordList[0]");
-    //   console.log(newMonthRecordList[0]);
-    //   this.container.push(newMonthRecordList[0]);
-    //   console.log("container");
-    //   console.log(this.container);
-    //   for (let j = 0; j < count - 1; j++) {
-    //     let index = j + 1;
-    //     if (
-    //       newMonthRecordList.length !== 0 &&
-    //       newMonthRecordList[0].tag[0] === newMonthRecordList[index].tag[0]
-    //     ) {
-    //       {
-    //         // console.log("newMonthRecordList[index]");
-    //         // console.log(newMonthRecordList[index]);
-    //         this.container.push(newMonthRecordList[index]);
-    //         // console.log("container");
-    //         // console.log(container);
-    //         newMonthRecordList.splice(index, 1);
-    //         j -= 1;
-    //         count -= 1;
-    //       }
-    //     }
-    //   }
-    //   // console.log("container");
-    //   // console.log(container);
-    //   this.sameMonthRecordList.push(this.container);
-    //   newMonthRecordList.splice(0, 1);
-    //   count -= 1;
-    // }
-    // this.container.splice(0);
-    // console.log("this.sameMonthRecordList");
-    // console.log(this.sameMonthRecordList);
-  } // BUG:在本页面刷新时无法读取 selectedRecordList
-  // get result() {
-  //   let { recordList } = this
-  //   let newRecordList = clone(recordList)
-  //     .filter((item: { type: string }) => item.type === this.type)
-  //     .sort(
-  //       (a: RecordItem, b: RecordItem) =>
-  //         dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
-  //     )
-  //   let hashTable: { [key: string]: { title: string; items: RecordItem[] } } =
-  //     {}
-  //   for (let i = 0; i < newRecordList.length; i++) {
-  //     let [date] = newRecordList[i].createdAt!.split('T')
-  //     hashTable[date] = hashTable[date] || { title: date, items: [] }
-  //     hashTable[date].items.push(newRecordList[i])
-  //   }
-  //   return hashTable
-  // }
-  // beautify(string: string) {
-  //   const day = dayjs(string);
-  //   const now = dayjs();
-  //   if (day.isSame(now, "day")) {
-  //     return "今天";
-  //   } else if (day.isSame(now.subtract(1, "day"), "day")) {
-  //     return "昨天";
-  //   } else if (day.isSame(now.subtract(2, "day"), "day")) {
-  //     return "前天";
-  //   } else if (day.isSame(now, "year")) {
-  //     return day.format("M月D日");
-  //   } else {
-  //     return day.format("YYYY年M月D日");
-  //   }
-  // }
-  // created() {
-  //   this.$store.commit("fetchRecords");
-  // } // 如何设置在每次刷新页面时都调用 fetchReords
+
+    this.sameMonthRecordList.splice(0);
+    let newMonthRecordList = this.monthRecordList;
+    let count = newMonthRecordList.length;
+    for (let i = 0; i < count; i) {
+      console.log("newMonthRecordList[0]", newMonthRecordList[0]);
+      this.container.push(newMonthRecordList[0]); // BUG：push 进去后，container.length = 0，但实质不为 0
+      console.log("container", this.container);
+      for (let j = 0; j < count - 1; j++) {
+        let index = j + 1;
+        if (
+          newMonthRecordList.length !== 0 &&
+          newMonthRecordList[0].tag[0] === newMonthRecordList[index].tag[0]
+        ) {
+          {
+            this.container.push(newMonthRecordList[index]);
+            newMonthRecordList.splice(index, 1);
+            j -= 1;
+            count -= 1;
+          }
+        }
+      }
+      this.sameMonthRecordList.push(this.container);
+      newMonthRecordList.splice(0, 1);
+      count -= 1;
+    }
+    this.container.splice(0);
+    console.log("this.sameMonthRecordList", this.sameMonthRecordList);
+  }
 }
 </script>
 
