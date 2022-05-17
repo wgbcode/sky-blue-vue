@@ -33,7 +33,7 @@ export default class Money extends Vue {
   record: RecordItem = {
     tag: [],
     notes: "",
-    type: "-",
+    type: "",
     amount: 0,
     createdAt: changeDateStyle("YYYY-MM-DD"),
     icon: "",
@@ -43,7 +43,7 @@ export default class Money extends Vue {
     return this.$store.state.recordList;
   }
   get showTagList() {
-    return this.$store.state.showTagList
+    return this.$store.state.showTagList;
   }
   saveRecord() {
     if (this.record.tag.length <= 0) {

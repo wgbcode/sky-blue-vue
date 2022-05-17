@@ -8,16 +8,16 @@
       :monthRecordList="monthRecordList"
     />
     <div>图</div>
-    <ol>
+    <!-- <ol v-for="item in sameRecordList" :key="item[0].tag">
       <div>支出排行榜</div>
       <li>
         <Icon name="money" />
-        <div>内容</div>
+        <div>{{ item }}</div>
       </li>
-    </ol>
+    </ol> -->
     <!-- <ol class="records" v-if="result.length !== {}">
       <li v-for="group in result" :key="group.id">
-        <h3 class="title">{{ beautify(group.title) }}</h3>
+        <h3 class="title">{{ beautify(group.title) }}</h3>{{}}
         <div v-for="item in group.items" :key="item.tags.id" class="record">
           <span> {{ item.tags[0].name }}</span>
           <span class="notes">{{ item.notes }}</span>
@@ -45,24 +45,29 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 })
 export default class Statistics extends Vue {
   pageValue = false;
-  type = "-";
+  type = "";
   recordTypeList = recordTypeList;
   monthTime = changeDateStyle("YYYY-MM");
   monthRecordList = this.recordList.filter(
     (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
   ); // 第一次未执行（刷新），但为什么切换路由时会执行？
   sameRecordList: any = [];
+  container: any = [];
   @Watch("monthTime")
   onMonthTimeValueChange() {
     this.sameRecordList.splice(0);
     this.monthRecordList = this.recordList.filter(
       (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
     );
-    let container = [];
+
     let newMonthRecordList = this.monthRecordList;
     let count = newMonthRecordList.length;
     for (let i = 0; i < count; i) {
-      container.push(newMonthRecordList[0]);
+      console.log("newMonthRecordList[0]");
+      console.log(newMonthRecordList[0]);
+      this.container.push(newMonthRecordList[0]);
+      console.log("container");
+      console.log(this.container);
       for (let j = 0; j < count - 1; j++) {
         let index = j + 1;
         if (
@@ -70,18 +75,24 @@ export default class Statistics extends Vue {
           newMonthRecordList[0].tag[0] === newMonthRecordList[index].tag[0]
         ) {
           {
-            container.push(newMonthRecordList[index]);
+            // console.log("newMonthRecordList[index]");
+            // console.log(newMonthRecordList[index]);
+            this.container.push(newMonthRecordList[index]);
+            // console.log("container");
+            // console.log(container);
             newMonthRecordList.splice(index, 1);
             j -= 1;
             count -= 1;
           }
         }
       }
-      this.sameRecordList.push(container);
+      // console.log("container");
+      // console.log(container);
+      this.sameRecordList.push(this.container);
       newMonthRecordList.splice(0, 1);
       count -= 1;
-      container.splice(0);
     }
+    this.container.splice(0);
     console.log("this.sameRecordList");
     console.log(this.sameRecordList);
   } // BUG:在本页面刷新时无法读取 selectedRecordList

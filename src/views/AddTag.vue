@@ -30,11 +30,11 @@
 <script lang="ts">
 import addClass from "@/lib/addClass";
 import TagHelper from "@/mixins/TagHelper";
-import { Component, Mixins } from "vue-property-decorator";
+import { Component, Mixins, Watch } from "vue-property-decorator";
 
 @Component
 export default class AddTag extends Mixins(TagHelper) {
-  selectedIconName:any = [];
+  selectedIconName: any = [];
   tag: Tag = {
     id: "",
     name: "",
@@ -46,6 +46,7 @@ export default class AddTag extends Mixins(TagHelper) {
   }
   goBack() {
     this.$router.back();
+    this.$store.commit("showTags");
   }
   getIconName(iconName: string) {
     addClass(iconName, this.selectedIconName);

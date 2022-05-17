@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 type DataSourceItem = { text: string; value: string };
 
@@ -40,13 +40,16 @@ export default class Tab extends Vue {
   liClass(item: DataSourceItem) {
     return {
       [this.classPrefix + "-li"]: this.classPrefix,
-      selected: item.value === this.value,
+      selected: item.value === this.selectedType,
     };
+  }
+  get selectedType() {
+    return this.$store.state.selectedType;
   }
   select(item: DataSourceItem) {
     this.$emit("update:value", item.value);
-    this.$store.state.selectedType = item.value;
-    this.$store.commit("fetchTags");
+    localStorage.setItem("selectedType", item.value);
+    this.$store.commit("showTags");
   }
   sum(arr: number[]) {
     let sum = eval(arr.join("+"));
