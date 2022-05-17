@@ -8,8 +8,8 @@ import * as echarts from "echarts";
 import { EChartsOption, ECharts } from "echarts";
 @Component
 export default class Chart extends Vue {
-  @Prop() options!: EChartsOption;
-  chart!: any;
+  @Prop() options?: EChartsOption;
+  chart?: ECharts;
   mounted() {
     if (this.options === undefined) {
       return console.error("options 为空");
