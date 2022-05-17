@@ -7,7 +7,9 @@
       :value.sync="type"
       :monthRecordList="monthRecordList"
     />
-    <div>图</div>
+    <div class="chart-wrapper" ref="chartWrapper">
+      <Chart class="chart" :options="chartOptions" />
+    </div>
     <!-- <li v-for="item in sameMonthRecordList" :key="item[0].tag[0]">
       <ol>
         {{
@@ -24,9 +26,10 @@ import Tab from "@/components/Tab.vue";
 import recordTypeList from "@/constants/recordTypeList";
 import changeDateStyle from "@/lib/changeDateStyle";
 import { Component, Vue, Watch } from "vue-property-decorator";
+import Chart from "@/components/Chart.vue";
 
 @Component({
-  components: { Tab, Layout },
+  components: { Tab, Layout, Chart },
 })
 export default class Statistics extends Vue {
   pageValue = false;
@@ -38,7 +41,6 @@ export default class Statistics extends Vue {
   sameMonthRecordList: any = [];
 
   get recordList() {
-    console.log("执行了");
     return this.$store.state.recordList;
   }
   @Watch("monthTime", { immediate: true })
@@ -46,18 +48,17 @@ export default class Statistics extends Vue {
     if (this.monthTime === "") {
       this.monthTime = changeDateStyle("YYYY-MM");
     }
-    console.log("this.recordList", this.recordList);
+    // console.log("this.recordList", this.recordList);
     this.monthRecordList = this.recordList.filter(
       (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
     );
-    console.log("this.monthRecordList", this.monthRecordList); // BUG: 赋值失败；控制台打印出的 length = 0
+    // console.log("this.monthRecordList", this.monthRecordList); // BUG: 赋值失败；控制台打印出的 length = 0
+    // console.log("this.monthRecordList[0]", this.monthRecordList[0]);
     this.sameMonthRecordList.splice(0);
     let newMonthRecordList = this.monthRecordList;
     let count = newMonthRecordList.length;
     let container: any = [];
     for (let i = 0; i < count; i) {
-      // console.log("newMonthRecordList[0]", newMonthRecordList[0]);
-      // container.push(newMonthRecordList[0]);
       for (let j = 0; j < count - 1; j++) {
         let index = j + 1;
         if (
@@ -80,10 +81,52 @@ export default class Statistics extends Vue {
     }
     // console.log("this.sameMonthRecordList", this.sameMonthRecordList);
   }
+  // 函数名前加 get 立即执行
+  get chartOptions() {
+    return {
+      title: {
+        text: "Referer of a Website",
+        subtext: "Fake Data",
+        left: "center",
+      },
+      tooltip: {
+        trigger: "item",
+      },
+      legend: {
+        orient: "vertical",
+        left: "left",
+      },
+      series: [
+        {
+          name: "Access From",
+          type: "pie",
+          radius: "50%",
+          data: [
+            { value: 1048, name: "Search Engine" },
+            { value: 735, name: "Direct" },
+            { value: 580, name: "Email" },
+            { value: 484, name: "Union Ads" },
+            { value: 300, name: "Video Ads" },
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)",
+            },
+          },
+        },
+      ],
+    };
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+.echarts {
+  max-width: 100%;
+  height: 400px;
+}
 ::v-deep .type-tabWrapper {
   background: white;
   color: #535152;
