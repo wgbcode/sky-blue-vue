@@ -8,6 +8,13 @@
       :monthRecordList="monthRecordList"
     />
     <div>图</div>
+    <!-- <li v-for="item in sameMonthRecordList" :key="item[0].tag[0]">
+      <ol>
+        {{
+          item[0].tag[0]
+        }}
+      </ol>
+    </li> -->
   </Layout>
 </template>
 
@@ -25,49 +32,53 @@ export default class Statistics extends Vue {
   pageValue = false;
   type = "";
   recordTypeList = recordTypeList;
-  monthTime = changeDateStyle("YYYY-MM");
-  monthRecordList = this.recordList.filter(
-    (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
-  ); // BUG：单独在此页面刷新时无法加载数据，monthRecordList = []
+  monthTime = "";
+  monthRecordList = [];
+  // BUG：在当前页面刷新时无法获取 recordList
   sameMonthRecordList: any = [];
-  container: any = [];
 
   get recordList() {
+    console.log("执行了");
     return this.$store.state.recordList;
   }
-  @Watch("monthTime")
+  @Watch("monthTime", { immediate: true })
   onMonthTimeValueChange() {
+    if (this.monthTime === "") {
+      this.monthTime = changeDateStyle("YYYY-MM");
+    }
+    console.log("this.recordList", this.recordList);
     this.monthRecordList = this.recordList.filter(
       (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
     );
-
+    console.log("this.monthRecordList", this.monthRecordList); // BUG: 赋值失败；控制台打印出的 length = 0
     this.sameMonthRecordList.splice(0);
     let newMonthRecordList = this.monthRecordList;
     let count = newMonthRecordList.length;
+    let container: any = [];
     for (let i = 0; i < count; i) {
-      console.log("newMonthRecordList[0]", newMonthRecordList[0]);
-      this.container.push(newMonthRecordList[0]); // BUG：push 进去后，container.length = 0，但实质不为 0
-      console.log("container", this.container);
+      // console.log("newMonthRecordList[0]", newMonthRecordList[0]);
+      // container.push(newMonthRecordList[0]);
       for (let j = 0; j < count - 1; j++) {
         let index = j + 1;
         if (
-          newMonthRecordList.length !== 0 &&
-          newMonthRecordList[0].tag[0] === newMonthRecordList[index].tag[0]
+          newMonthRecordList.length !== 0
+          //  && newMonthRecordList[0].tag[0] === newMonthRecordList[index].tag[0]
         ) {
           {
-            this.container.push(newMonthRecordList[index]);
+            container.push(newMonthRecordList[index]);
             newMonthRecordList.splice(index, 1);
             j -= 1;
             count -= 1;
           }
         }
       }
-      this.sameMonthRecordList.push(this.container);
+      // console.log("container", container); // BUG：push 进去后，控制台显示 length = 0，但打印和实质都不为 0
+      this.sameMonthRecordList.push(container);
       newMonthRecordList.splice(0, 1);
       count -= 1;
+      container.splice(0);
     }
-    this.container.splice(0);
-    console.log("this.sameMonthRecordList", this.sameMonthRecordList);
+    // console.log("this.sameMonthRecordList", this.sameMonthRecordList);
   }
 }
 </script>
