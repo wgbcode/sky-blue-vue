@@ -20,9 +20,6 @@ const store = new Vuex.Store({
   } as RootState,
 
   mutations: {
-    setCurrentTag(state, id: string) {
-      state.currentTag = state.tagList.filter((t) => t.id === id)[0];
-    },
     fetchRecords(state) {
       state.recordList = JSON.parse(
         window.localStorage.getItem("recordList") || "[]"
@@ -30,6 +27,8 @@ const store = new Vuex.Store({
     },
     createRecord(state, record) {
       state.recordList.push(clone(record));
+      console.log(state.recordList);
+
       store.commit("saveRecord");
     },
     saveRecord(state) {
@@ -39,6 +38,9 @@ const store = new Vuex.Store({
       );
     },
 
+    setCurrentTag(state, id: string) {
+      state.currentTag = state.tagList.filter((t) => t.id === id)[0];
+    },
     showTags(state) {
       let currentLocalTagList = JSON.parse(localStorage.getItem("tagList")!);
       store.commit("fetchSelectedType");

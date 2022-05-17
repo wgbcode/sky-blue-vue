@@ -37,22 +37,24 @@ export default class Tab extends Vue {
   @Prop(String) readonly value!: string;
   @Prop(String) readonly classPrefix?: string;
   @Prop(Array) readonly monthRecordList?: RecordItem[];
+  get selectedType() {
+    return this.$store.state.selectedType;
+  }
   liClass(item: DataSourceItem) {
     return {
       [this.classPrefix + "-li"]: this.classPrefix,
       selected: item.value === this.selectedType,
     };
   }
-  get selectedType() {
-    return this.$store.state.selectedType;
-  }
   select(item: DataSourceItem) {
-    this.$emit("update:value", item.value);
     localStorage.setItem("selectedType", item.value);
     this.$store.commit("showTags");
+    this.$emit("update:value", item.value);
   }
   sum(arr: number[]) {
     let sum = eval(arr.join("+"));
+    console.log(this.monthRecordList);
+
     if (sum === undefined) {
       return "0.00";
     } else {

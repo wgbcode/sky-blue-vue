@@ -1,5 +1,6 @@
 <template>
   <Layout>
+    {{ record }}
     <Tab :data-source="recordTypeList" :value.sync="record.type" />
     <Tags
       :value="showTagList"
@@ -33,7 +34,7 @@ export default class Money extends Vue {
   record: RecordItem = {
     tag: [],
     notes: "",
-    type: "",
+    type: "-",
     amount: 0,
     createdAt: changeDateStyle("YYYY-MM-DD"),
     icon: "",
@@ -46,12 +47,13 @@ export default class Money extends Vue {
     return this.$store.state.showTagList;
   }
   saveRecord() {
-    if (this.record.tag.length <= 0) {
+    if (this.record.tag.length === 0) {
       alert("请选择类型");
     } else if (this.record.amount === 0) {
       alert("请输入金额");
     } else {
       this.$store.commit("createRecord", this.record);
+      this.record.tag = [];
       this.record.notes = "";
       this.record.createdAt = dayjs(new Date().toISOString()).format(
         "YYYY-MM-DD"

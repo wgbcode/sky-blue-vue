@@ -8,7 +8,7 @@
       :monthRecordList="monthRecordList"
     />
     <div>图</div>
-    <!-- <ol v-for="item in monthSameRecordList" :key="item[0].tag">
+    <!-- <ol v-for="item in sameMonthRecordList" :key="item[0].tag">
       <div>支出排行榜</div>
       <li>
         <Icon name="money" />
@@ -50,55 +50,55 @@ export default class Statistics extends Vue {
   monthRecordList = this.recordList.filter(
     (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
   ); // 第一次未执行（刷新），但为什么切换路由时会执行？
-  monthSameRecordList: any = [];
+  sameMonthRecordList: any = [];
   container: any = [];
-  @Watch("monthTime")
-  onMonthTimeValueChange() {
-    this.monthSameRecordList.splice(0);
-    this.monthRecordList = this.recordList.filter(
-      (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
-    );
-
-    let newMonthRecordList = this.monthRecordList;
-    let count = newMonthRecordList.length;
-    for (let i = 0; i < count; i) {
-      console.log("newMonthRecordList[0]");
-      console.log(newMonthRecordList[0]);
-      this.container.push(newMonthRecordList[0]);
-      console.log("container");
-      console.log(this.container);
-      for (let j = 0; j < count - 1; j++) {
-        let index = j + 1;
-        if (
-          newMonthRecordList.length !== 0 &&
-          newMonthRecordList[0].tag[0] === newMonthRecordList[index].tag[0]
-        ) {
-          {
-            // console.log("newMonthRecordList[index]");
-            // console.log(newMonthRecordList[index]);
-            this.container.push(newMonthRecordList[index]);
-            // console.log("container");
-            // console.log(container);
-            newMonthRecordList.splice(index, 1);
-            j -= 1;
-            count -= 1;
-          }
-        }
-      }
-      // console.log("container");
-      // console.log(container);
-      this.monthSameRecordList.push(this.container);
-      newMonthRecordList.splice(0, 1);
-      count -= 1;
-    }
-    this.container.splice(0);
-    console.log("this.monthSameRecordList");
-    console.log(this.monthSameRecordList);
-  } // BUG:在本页面刷新时无法读取 selectedRecordList
 
   get recordList() {
     return this.$store.state.recordList;
   }
+
+  @Watch("monthTime")
+  onMonthTimeValueChange() {
+    this.monthRecordList = this.recordList.filter(
+      (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
+    );
+    // this.sameMonthRecordList.splice(0);
+    // let newMonthRecordList = this.monthRecordList;
+    // let count = newMonthRecordList.length;
+    // for (let i = 0; i < count; i) {
+    //   console.log("newMonthRecordList[0]");
+    //   console.log(newMonthRecordList[0]);
+    //   this.container.push(newMonthRecordList[0]);
+    //   console.log("container");
+    //   console.log(this.container);
+    //   for (let j = 0; j < count - 1; j++) {
+    //     let index = j + 1;
+    //     if (
+    //       newMonthRecordList.length !== 0 &&
+    //       newMonthRecordList[0].tag[0] === newMonthRecordList[index].tag[0]
+    //     ) {
+    //       {
+    //         // console.log("newMonthRecordList[index]");
+    //         // console.log(newMonthRecordList[index]);
+    //         this.container.push(newMonthRecordList[index]);
+    //         // console.log("container");
+    //         // console.log(container);
+    //         newMonthRecordList.splice(index, 1);
+    //         j -= 1;
+    //         count -= 1;
+    //       }
+    //     }
+    //   }
+    //   // console.log("container");
+    //   // console.log(container);
+    //   this.sameMonthRecordList.push(this.container);
+    //   newMonthRecordList.splice(0, 1);
+    //   count -= 1;
+    // }
+    // this.container.splice(0);
+    // console.log("this.sameMonthRecordList");
+    // console.log(this.sameMonthRecordList);
+  } // BUG:在本页面刷新时无法读取 selectedRecordList
   // get result() {
   //   let { recordList } = this
   //   let newRecordList = clone(recordList)
