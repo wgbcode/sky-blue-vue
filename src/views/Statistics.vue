@@ -81,7 +81,7 @@ export default class Statistics extends Vue {
     }
     // console.log("this.sameMonthRecordList", this.sameMonthRecordList);
   }
-  // 函数名前加 get 立即执行
+  // 使用 getter 函数，可动态返回计算值（对象和键值对）
   get chartOptions() {
     return {
       title: {

@@ -15,7 +15,7 @@ export default class Chart extends Vue {
       return console.error("options 为空");
     }
     this.chart = echarts.init(this.$refs.wrapper as HTMLDivElement);
-    this.chart.setOption(this.options); // this.options 需要是函数，加 get 可立即执行
+    this.chart.setOption(this.options); // this.options 需要是对象，不能是函数
   }
   @Watch("options")
   onOptionsChange(newValue: EChartsOption) {
