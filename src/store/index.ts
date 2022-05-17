@@ -42,11 +42,9 @@ const store = new Vuex.Store({
     showTags(state) {
       let currentLocalTagList = JSON.parse(localStorage.getItem("tagList")!);
       store.commit("fetchSelectedType");
-      console.log(state.selectedType);
       state.showTagList = currentLocalTagList.filter(
         (t: Tag) => t.type === state.selectedType
       );
-      console.log(state.showTagList);
     },
     fetchTags(state) {
       let localTagList = JSON.parse(localStorage.getItem("tagList") || "[]");

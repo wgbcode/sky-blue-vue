@@ -8,7 +8,7 @@
       :monthRecordList="monthRecordList"
     />
     <div>图</div>
-    <!-- <ol v-for="item in sameRecordList" :key="item[0].tag">
+    <!-- <ol v-for="item in monthSameRecordList" :key="item[0].tag">
       <div>支出排行榜</div>
       <li>
         <Icon name="money" />
@@ -36,8 +36,7 @@ import Layout from "@/components/Layout.vue";
 import Tab from "@/components/Tab.vue";
 import recordTypeList from "@/constants/recordTypeList";
 import changeDateStyle from "@/lib/changeDateStyle";
-import clone from "@/lib/clone";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component({
@@ -51,11 +50,11 @@ export default class Statistics extends Vue {
   monthRecordList = this.recordList.filter(
     (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
   ); // 第一次未执行（刷新），但为什么切换路由时会执行？
-  sameRecordList: any = [];
+  monthSameRecordList: any = [];
   container: any = [];
   @Watch("monthTime")
   onMonthTimeValueChange() {
-    this.sameRecordList.splice(0);
+    this.monthSameRecordList.splice(0);
     this.monthRecordList = this.recordList.filter(
       (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
     );
@@ -88,13 +87,13 @@ export default class Statistics extends Vue {
       }
       // console.log("container");
       // console.log(container);
-      this.sameRecordList.push(this.container);
+      this.monthSameRecordList.push(this.container);
       newMonthRecordList.splice(0, 1);
       count -= 1;
     }
     this.container.splice(0);
-    console.log("this.sameRecordList");
-    console.log(this.sameRecordList);
+    console.log("this.monthSameRecordList");
+    console.log(this.monthSameRecordList);
   } // BUG:在本页面刷新时无法读取 selectedRecordList
 
   get recordList() {
