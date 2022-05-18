@@ -35,7 +35,6 @@ export default class Statistics extends Vue {
   recordTypeList = recordTypeList;
   monthTime = "";
   monthRecordList = [];
-  // BUG：在当前页面刷新时无法获取 recordList
   sameMonthRecordList: any = [];
 
   get recordList() {
@@ -46,11 +45,11 @@ export default class Statistics extends Vue {
     if (this.monthTime === "") {
       this.monthTime = changeDateStyle("YYYY-MM");
     }
-    // console.log("this.recordList", this.recordList);
+    console.log("this.recordList", this.recordList); // BUG：在当前页面刷新时无法获取 recordList
     this.monthRecordList = this.recordList.filter(
       (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
     );
-    console.log("this.monthRecordList", this.monthRecordList); // BUG: 赋值失败；控制台打印出的 length = 0
+    console.log("this.monthRecordList", this.monthRecordList); // BUG: 赋值时控制台打印出的 length = 0
     console.log("this.monthRecordList[0]", this.monthRecordList[0]);
     this.sameMonthRecordList.splice(0);
     let newMonthRecordList = this.monthRecordList;
@@ -71,7 +70,7 @@ export default class Statistics extends Vue {
           }
         }
       }
-      console.log("container", container); // BUG：push 进去后，控制台显示 length = 0，但打印和实质都不为 0
+      console.log("container", container); // BUG：同样，push 进去后，控制台显示 length = 0
       this.sameMonthRecordList.push(container);
       newMonthRecordList.splice(0, 1);
       count -= 1;
