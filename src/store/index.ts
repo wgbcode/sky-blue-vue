@@ -54,6 +54,7 @@ const store = new Vuex.Store({
         state.tagList = defaultTag;
         store.commit("saveTags");
       }
+      state.tagList = localTagList; // 防止二次刷新后直接添加 tag 时 state.tagList = []
       store.commit("showTags");
     },
     findTag: (state, id: string) => {

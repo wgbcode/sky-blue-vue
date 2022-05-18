@@ -5,7 +5,7 @@
 </template>
 
 <style lang="scss">
-@import '~@/assets/style/helper.scss';
+@import "~@/assets/style/helper.scss";
 * {
   padding: 0;
   margin: 0;
@@ -39,15 +39,13 @@ a {
 </style>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue";
 export default Vue.extend({
   created() {
-    window.addEventListener('load', () => {
-      this.$store.commit('fetchTags')
-      this.$store.commit('fetchRecords')
-    })
+    this.$store.commit("fetchTags");
+    this.$store.commit("fetchRecords");
   },
-})
+});
 </script>
 
 

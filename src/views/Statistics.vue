@@ -45,7 +45,7 @@ export default class Statistics extends Vue {
     if (this.monthTime === "") {
       this.monthTime = changeDateStyle("YYYY-MM");
     }
-    console.log("this.recordList", this.recordList); // BUG：在当前页面刷新时无法获取 recordList
+    // console.log("this.recordList", this.recordList); // BUG：在当前页面刷新时无法获取 recordList
     this.monthRecordList = this.recordList.filter(
       (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
     );

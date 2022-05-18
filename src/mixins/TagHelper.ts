@@ -12,7 +12,7 @@ export default class TagHelper extends Vue {
     } else {
       this.$store.commit("createTag", tag);
       this.$router.back();
-      this.$store.commit("showTags");
+      this.$store.commit("fetchTags");
     }
   }
 }
