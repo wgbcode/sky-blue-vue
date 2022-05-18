@@ -8,13 +8,13 @@
       :monthRecordList="monthRecordList"
     />
     <Chart :options="chartOptions" />
-    <!-- <li v-for="item in sameMonthRecordList" :key="item[0].tag[0]">
+    <li v-for="item in sameMonthRecordList" :key="item[0].icon">
       <ol>
         {{
           item[0].tag[0]
         }}
       </ol>
-    </li> -->
+    </li>
   </Layout>
 </template>
 
@@ -25,6 +25,7 @@ import recordTypeList from "@/constants/recordTypeList";
 import changeDateStyle from "@/lib/changeDateStyle";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import Chart from "@/components/Chart.vue";
+import clone from "@/lib/clone";
 
 @Component({
   components: { Tab, Layout, Chart },
@@ -34,7 +35,7 @@ export default class Statistics extends Vue {
   type = "";
   recordTypeList = recordTypeList;
   monthTime = "";
-  monthRecordList = [];
+  monthRecordList: RecordItem[] = [];
   sameMonthRecordList: any = [];
 
   get recordList() {
@@ -45,56 +46,46 @@ export default class Statistics extends Vue {
     if (this.monthTime === "") {
       this.monthTime = changeDateStyle("YYYY-MM");
     }
-    // console.log("this.recordList", this.recordList); // BUG：在当前页面刷新时无法获取 recordList
-    this.monthRecordList = this.recordList.filter(
+    this.monthRecordList = clone(this.recordList).filter(
       (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
     );
-    console.log("this.monthRecordList", this.monthRecordList); // BUG: 赋值时控制台打印出的 length = 0
-    console.log("this.monthRecordList[0]", this.monthRecordList[0]);
     this.sameMonthRecordList.splice(0);
-    let newMonthRecordList = this.monthRecordList;
+    let newMonthRecordList = clone(this.monthRecordList);
     let count = newMonthRecordList.length;
-    let container: any = [];
+    let container: RecordItem[] = [];
     for (let i = 0; i < count; i) {
       for (let j = 0; j < count - 1; j++) {
         let index = j + 1;
         if (
-          newMonthRecordList.length !== 0
-          //  && newMonthRecordList[0].tag[0] === newMonthRecordList[index].tag[0]
+          newMonthRecordList.length !== 0 &&
+          newMonthRecordList[0].tag[0] === newMonthRecordList[index].tag[0]
         ) {
-          {
-            container.push(newMonthRecordList[index]);
-            newMonthRecordList.splice(index, 1);
-            j -= 1;
-            count -= 1;
-          }
+          container.push(newMonthRecordList[index]);
+          newMonthRecordList.splice(index, 1);
+          j -= 1;
+          count -= 1;
         }
       }
-      console.log("container", container); // BUG：同样，push 进去后，控制台显示 length = 0
-      this.sameMonthRecordList.push(container);
+      container.push(newMonthRecordList[0]);
       newMonthRecordList.splice(0, 1);
       count -= 1;
-      container.splice(0);
+      this.sameMonthRecordList.push(container);
+      // 使用 container.splice(0) 清空数组时会改变原数组，导致 push 进去的 container 为空数组
+      container = [];
     }
-    // console.log("this.sameMonthRecordList", this.sameMonthRecordList);
   }
   // 使用 getter 函数，可动态返回计算值（对象和键值对）
   get chartOptions() {
     return {
       title: {
-        text: "", //主标题文本
-        subtext: "支出", //副标题文本
+        text: "支出",
         left: "center",
-        top: "39%",
+        top: "center",
         textStyle: {
-          fontSize: 38,
+          fontSize: 16,
           color: "#454c5c",
           align: "center",
-        },
-        subtextStyle: {
           fontFamily: "微软雅黑",
-          fontSize: 16,
-          color: "#6c7a89",
         },
       },
       series: [
