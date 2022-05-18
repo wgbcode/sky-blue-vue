@@ -96,14 +96,14 @@ export default class FormItem extends Vue {
       &:focus {
         outline: none;
       }
-      &::-webkit-calendar-picker-indicator {
-        position: absolute;
-        left: 0px;
-        top: 0;
-        width: 90px;
-        background-image: none;
-        padding: 5px;
-      }
+      // &::-webkit-calendar-picker-indicator {
+      //   position: absolute;
+      //   left: 0px;
+      //   top: 0;
+      //   width: 90px;
+      //   background-image: none;
+      //   padding: 5px;
+      // }
     }
   }
 
