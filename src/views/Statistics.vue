@@ -7,9 +7,7 @@
       :value.sync="type"
       :monthRecordList="monthRecordList"
     />
-    <div class="chart-wrapper" ref="chartWrapper">
-      <Chart class="chart" :options="chartOptions" />
-    </div>
+    <Chart :options="chartOptions" />
     <!-- <li v-for="item in sameMonthRecordList" :key="item[0].tag[0]">
       <ol>
         {{
@@ -85,36 +83,45 @@ export default class Statistics extends Vue {
   get chartOptions() {
     return {
       title: {
-        text: "Referer of a Website",
-        subtext: "Fake Data",
+        text: "", //主标题文本
+        subtext: "支出", //副标题文本
         left: "center",
-      },
-      tooltip: {
-        trigger: "item",
-      },
-      legend: {
-        orient: "vertical",
-        left: "left",
+        top: "39%",
+        textStyle: {
+          fontSize: 38,
+          color: "#454c5c",
+          align: "center",
+        },
+        subtextStyle: {
+          fontFamily: "微软雅黑",
+          fontSize: 16,
+          color: "#6c7a89",
+        },
       },
       series: [
         {
-          name: "Access From",
+          name: "",
           type: "pie",
-          radius: "50%",
-          data: [
-            { value: 1048, name: "Search Engine" },
-            { value: 735, name: "Direct" },
-            { value: 580, name: "Email" },
-            { value: 484, name: "Union Ads" },
-            { value: 300, name: "Video Ads" },
-          ],
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: "rgba(0, 0, 0, 0.5)",
+          radius: ["30%", "60%"],
+          label: {
+            formatter: "{b|{b}} {per|{d}%} ",
+            rich: {
+              b: {
+                color: "#4C5058",
+              },
+              per: {
+                color: "#4C5058",
+              },
             },
           },
+          data: [
+            { value: 1048, name: "消费" },
+            { value: 335, name: "交通" },
+            { value: 310, name: "饮食" },
+            { value: 335, name: "交通" },
+            { value: 335, name: "交通" },
+            { value: 335, name: "交通" },
+          ],
         },
       ],
     };
@@ -123,10 +130,6 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.echarts {
-  max-width: 100%;
-  height: 400px;
-}
 ::v-deep .type-tabWrapper {
   background: white;
   color: #535152;
