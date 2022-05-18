@@ -1,20 +1,45 @@
 <template>
   <Layout>
+    {{ monthSum }}
     <FormItem type="month" :value.sync="monthTime" />
     <Tab
       class-prefix="type"
       :data-source="recordTypeList"
       :value.sync="type"
       :monthRecordList="monthRecordList"
+      @update:total="monthSum = $event"
+      @click="getResult"
     />
     <Chart :options="chartOptions" />
-    <li v-for="item in sameMonthRecordList" :key="item[0].icon">
-      <ol>
-        {{
-          item[0].tag[0]
-        }}
-      </ol>
-    </li>
+    <div v-for="item in sameTypeMonthRecordList" :key="item[0].icon">
+      <Icon :name="item[0].icon" />
+      <div>
+        <li>
+          <ol>
+            {{
+              item[0].tag[0]
+            }}
+          </ol>
+          <ol>
+            {{
+              item.length.toString() + "笔"
+            }}
+          </ol>
+          <ol>
+            {{
+              Math.round((Number(sum(item)) / Number(monthSum)) * 10000) / 100 +
+              "%"
+            }}
+          </ol>
+          <ol>
+            {{
+              sum(item)
+            }}
+          </ol>
+        </li>
+        <div>进度条</div>
+      </div>
+    </div>
   </Layout>
 </template>
 
@@ -26,6 +51,7 @@ import changeDateStyle from "@/lib/changeDateStyle";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import Chart from "@/components/Chart.vue";
 import clone from "@/lib/clone";
+import sum from "@/lib/sum";
 
 @Component({
   components: { Tab, Layout, Chart },
@@ -37,9 +63,16 @@ export default class Statistics extends Vue {
   monthTime = "";
   monthRecordList: RecordItem[] = [];
   sameMonthRecordList: any = [];
+  sameTypeMonthRecordList: any = [];
+  monthSum: string = "";
+  sum = sum;
 
   get recordList() {
     return this.$store.state.recordList;
+  }
+  get selectedType() {
+    this.$store.commit("fetchSelectedType");
+    return this.$store.state.selectedType;
   }
   @Watch("monthTime", { immediate: true })
   onMonthTimeValueChange() {
@@ -54,8 +87,8 @@ export default class Statistics extends Vue {
     let count = newMonthRecordList.length;
     let container: RecordItem[] = [];
     for (let i = 0; i < count; i) {
-      for (let j = 0; j < count - 1; j++) {
-        let index = j + 1;
+      for (let j = 1; j < count; j++) {
+        let index = j;
         if (
           newMonthRecordList.length !== 0 &&
           newMonthRecordList[0].tag[0] === newMonthRecordList[index].tag[0]
@@ -73,6 +106,7 @@ export default class Statistics extends Vue {
       // 使用 container.splice(0) 清空数组时会改变原数组，导致 push 进去的 container 为空数组
       container = [];
     }
+    this.getResult();
   }
   // 使用 getter 函数，可动态返回计算值（对象和键值对）
   get chartOptions() {
@@ -115,6 +149,15 @@ export default class Statistics extends Vue {
         },
       ],
     };
+  }
+  created() {
+    this.getResult();
+  }
+  getResult() {
+    this.sameTypeMonthRecordList = this.sameMonthRecordList
+      .map((r: RecordItem[]) => r.filter((t) => t.type === this.selectedType))
+      .filter((r: any) => r.length !== 0);
+    return this.sameTypeMonthRecordList;
   }
 }
 </script>

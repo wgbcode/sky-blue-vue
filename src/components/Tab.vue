@@ -1,5 +1,8 @@
 <template>
-  <div :class="classPrefix ? [classPrefix] + '-tabWrapper' : 'tabWrapper'">
+  <div
+    :class="classPrefix ? [classPrefix] + '-tabWrapper' : 'tabWrapper'"
+    @click="$emit('click')"
+  >
     <ul :class="classPrefix ? [classPrefix] + '-tab' : 'tab'">
       <li
         v-for="item in dataSource"
@@ -11,15 +14,8 @@
         <span
           v-show="classPrefix ? true : false"
           :class="item.value === '-' ? 'outSum' : 'inSum'"
-          >{{
-            monthRecordList
-              ? sum(
-                  monthRecordList
-                    .filter((r) => r.type === item.value)
-                    .map((r) => r.amount)
-                )
-              : "0.00"
-          }}
+        >
+          {{ getTotal(item) }}
         </span>
       </li>
     </ul>
@@ -28,6 +24,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import sum from "@/lib/sum";
 
 type DataSourceItem = { text: string; value: string };
 
@@ -37,6 +34,7 @@ export default class Tab extends Vue {
   @Prop(String) readonly value!: string;
   @Prop(String) readonly classPrefix?: string;
   @Prop(Array) readonly monthRecordList?: RecordItem[];
+  sum = sum;
   get selectedType() {
     return this.$store.state.selectedType;
   }
@@ -51,13 +49,19 @@ export default class Tab extends Vue {
     this.$store.commit("showTags");
     this.$emit("update:value", item.value);
   }
-  sum(arr: number[]) {
-    let sum = eval(arr.join("+"));
-    if (sum === undefined) {
-      return "0.00";
+  getTotal(item: any) {
+    let total;
+    let selectedTotal;
+    if (this.monthRecordList) {
+      total = sum(this.monthRecordList.filter((r) => r.type === item.value));
+      selectedTotal = sum(
+        this.monthRecordList.filter((r) => r.type === this.selectedType)
+      );
     } else {
-      return sum.toFixed(2);
+      total = "0.00";
     }
+    this.$emit("update:total", selectedTotal);
+    return total;
   }
 }
 </script>
