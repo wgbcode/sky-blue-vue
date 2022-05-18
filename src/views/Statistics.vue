@@ -50,8 +50,8 @@ export default class Statistics extends Vue {
     this.monthRecordList = this.recordList.filter(
       (r: RecordItem) => r.createdAt.slice(0, -3) === this.monthTime
     );
-    // console.log("this.monthRecordList", this.monthRecordList); // BUG: 赋值失败；控制台打印出的 length = 0
-    // console.log("this.monthRecordList[0]", this.monthRecordList[0]);
+    console.log("this.monthRecordList", this.monthRecordList); // BUG: 赋值失败；控制台打印出的 length = 0
+    console.log("this.monthRecordList[0]", this.monthRecordList[0]);
     this.sameMonthRecordList.splice(0);
     let newMonthRecordList = this.monthRecordList;
     let count = newMonthRecordList.length;
@@ -71,7 +71,7 @@ export default class Statistics extends Vue {
           }
         }
       }
-      // console.log("container", container); // BUG：push 进去后，控制台显示 length = 0，但打印和实质都不为 0
+      console.log("container", container); // BUG：push 进去后，控制台显示 length = 0，但打印和实质都不为 0
       this.sameMonthRecordList.push(container);
       newMonthRecordList.splice(0, 1);
       count -= 1;
