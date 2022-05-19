@@ -124,13 +124,9 @@ export default class Statistics extends Vue {
       obj.value = Number(sum(cloneList[0]));
       obj.name = cloneList[0][0].tag[0];
       arr.push(obj);
-      console.log(obj);
-
       obj = { value: 1, name: "" };
       cloneList.splice(0, 1);
-      length -= 1;
     }
-    console.log(arr);
     return {
       title: {
         text: "支出",
