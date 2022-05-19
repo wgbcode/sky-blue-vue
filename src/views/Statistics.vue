@@ -43,7 +43,17 @@
                 </li>
               </ol>
               <ol class="inBar">
-                <li class="outBar"></li>
+                <li
+                  class="outBar"
+                  :style="{
+                    width:
+                      Math.round(
+                        (Number(sum(item)) / Number(monthSum)) * 10000
+                      ) /
+                        100 +
+                      '%',
+                  }"
+                ></li>
               </ol>
             </div>
           </div>
@@ -279,7 +289,6 @@ export default class Statistics extends Vue {
         background: #c9c5c5;
         .outBar {
           background: red;
-          width: 50%; // 需要拿到比例数据
           height: 3px;
           background: #79ada1;
         }
