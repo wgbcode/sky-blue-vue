@@ -9,43 +9,50 @@
         @update:total="monthSum = $event"
         @click="getResult"
       />
-      <div class="wrapperChart">
-        <Chart :options="chartOptions" />
-      </div>
-      <div>
-        <header class="title">支出排行榜</header>
-        <div
-          v-for="item in sameTypeMonthRecordList"
-          :key="item[0].tag[0]"
-          class="list"
-        >
-          <div class="wrapperIcon">
-            <Icon :name="item[0].icon" />
-          </div>
-          <div class="wrapperListContent">
-            <ol class="listContent">
-              <li class="tagName">
-                {{ item[0].tag[0] }}
-              </li>
-              <li class="tagCount">
-                {{ item.length.toString() + "笔" }}
-              </li>
-              <li class="percent">
-                {{
-                  Math.round((Number(sum(item)) / Number(monthSum)) * 10000) /
-                    100 +
-                  "%"
-                }}
-              </li>
-              <li class="sum">
-                {{ sum(item) }}
-              </li>
-            </ol>
-            <ol class="inBar">
-              <li class="outBar"></li>
-            </ol>
+      <div v-if="monthSum !== '0.00'">
+        <div class="wrapperChart">
+          <Chart :options="chartOptions" />
+        </div>
+        <div>
+          <header class="title">支出排行榜</header>
+          <div
+            v-for="item in sameTypeMonthRecordList"
+            :key="item[0].tag[0]"
+            class="list"
+          >
+            <div class="wrapperIcon">
+              <Icon :name="item[0].icon" />
+            </div>
+            <div class="wrapperListContent">
+              <ol class="listContent">
+                <li class="tagName">
+                  {{ item[0].tag[0] }}
+                </li>
+                <li class="tagCount">
+                  {{ item.length.toString() + "笔" }}
+                </li>
+                <li class="percent">
+                  {{
+                    Math.round((Number(sum(item)) / Number(monthSum)) * 10000) /
+                      100 +
+                    "%"
+                  }}
+                </li>
+                <li class="sum">
+                  {{ sum(item) }}
+                </li>
+              </ol>
+              <ol class="inBar">
+                <li class="outBar"></li>
+              </ol>
+            </div>
           </div>
         </div>
+      </div>
+
+      <div class="noRecordData" v-else>
+        <div><Icon name="noData" /></div>
+        <span class="noRecordText">暂无记录数据</span>
       </div>
     </div>
   </Layout>
@@ -71,7 +78,7 @@ export default class Statistics extends Vue {
   monthRecordList: RecordItem[] = [];
   sameMonthRecordList: any = [];
   sameTypeMonthRecordList: any = [];
-  monthSum: string = "";
+  monthSum: string = "0.00";
   sum = sum;
 
   get recordList() {
@@ -211,29 +218,12 @@ export default class Statistics extends Vue {
   }
 }
 
-.title {
-  font-size: 17px;
-  line-height: 22px;
-  padding: 9px 16px;
-}
-.record {
-  font-size: 17px;
-  line-height: 22px;
-  padding: 9px 16px;
-  background: white;
-  display: flex;
-  justify-content: space-between;
-  .notes {
-    color: #9f9f9f;
-  }
-}
-.noresult {
-  display: flex;
-  justify-content: center;
-  margin-top: 100px;
-}
 .outWrapper {
   overflow: auto;
+  height: 100%; // 父元素已设置 flow-grow = 1
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
   .wrapperChart {
     margin-bottom: 12px;
   }
@@ -294,6 +284,22 @@ export default class Statistics extends Vue {
           background: #79ada1;
         }
       }
+    }
+  }
+  .noRecordData {
+    display: flex;
+    background: white;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding-top: 50px;
+    .icon {
+      width: 100px;
+      height: 100px;
+    }
+    .noRecordText {
+      color: #aeadad;
     }
   }
 }
