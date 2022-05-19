@@ -27,8 +27,6 @@ const store = new Vuex.Store({
     },
     createRecord(state, record) {
       state.recordList.push(clone(record));
-      console.log(state.recordList);
-
       store.commit("saveRecord");
     },
     saveRecord(state) {
@@ -120,7 +118,13 @@ const store = new Vuex.Store({
     },
     fetchSelectedType(state) {
       state.selectedType = localStorage.getItem("selectedType") || "-";
-      return state.selectedType;
+    },
+    createSelectedType(state, type) {
+      state.selectedType = type;
+      store.commit("saveSelectedType");
+    },
+    saveSelectedType(state) {
+      localStorage.setItem("selectedType", state.selectedType);
     },
   },
 });

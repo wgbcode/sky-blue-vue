@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <Tab :data-source="recordTypeList" :value.sync="record.type" />
+    <Tab :data-source="recordTypeList" />
     <Tags
       :value="showTagList"
       :selectedTag.sync="record.tag"
@@ -33,7 +33,7 @@ export default class Money extends Vue {
   record: RecordItem = {
     tag: [],
     notes: "",
-    type: "-",
+    type: "",
     amount: 0,
     createdAt: changeDateStyle("YYYY-MM-DD"),
     icon: "",
@@ -45,19 +45,23 @@ export default class Money extends Vue {
   get showTagList() {
     return this.$store.state.showTagList;
   }
+  get selectedType() {
+    return this.$store.state.selectedType;
+  }
   saveRecord() {
     if (this.record.tag.length === 0) {
       alert("请选择类型");
     } else if (this.record.amount === 0) {
       alert("请输入金额");
     } else {
+      this.record.type = this.selectedType;
       this.$store.commit("createRecord", this.record);
       this.record.tag = [];
       this.record.notes = "";
       this.record.createdAt = dayjs(new Date().toISOString()).format(
         "YYYY-MM-DD"
       );
-      this.$store.state.selectedTagName = [];
+      this.$store.state.selectedTagName = []; // 保存后撤消被选择的 tag
       alert("已成功保存");
     }
   }

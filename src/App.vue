@@ -44,6 +44,7 @@ export default Vue.extend({
   created() {
     this.$store.commit("fetchTags");
     this.$store.commit("fetchRecords");
+    this.$store.commit("fetchSelectedType");
   },
 });
 </script>

@@ -1,8 +1,5 @@
 <template>
-  <div
-    :class="classPrefix ? [classPrefix] + '-tabWrapper' : 'tabWrapper'"
-    @click="$emit('click')"
-  >
+  <div :class="classPrefix ? [classPrefix] + '-tabWrapper' : 'tabWrapper'">
     <ul :class="classPrefix ? [classPrefix] + '-tab' : 'tab'">
       <li
         v-for="item in dataSource"
@@ -23,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import sum from "@/lib/sum";
 
 type DataSourceItem = { text: string; value: string };
@@ -45,9 +42,10 @@ export default class Tab extends Vue {
     };
   }
   select(item: DataSourceItem) {
-    localStorage.setItem("selectedType", item.value);
+    this.$store.commit("createSelectedType", item.value);
+    this.$store.commit("fetchSelectedType");
     this.$store.commit("showTags");
-    this.$emit("update:value", item.value);
+    this.$emit("click");
   }
   getTotal(item: any) {
     let total;

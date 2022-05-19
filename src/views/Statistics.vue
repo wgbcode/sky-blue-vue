@@ -1,43 +1,51 @@
 <template>
   <Layout>
-    {{ monthSum }}
     <FormItem type="month" :value.sync="monthTime" />
-    <Tab
-      class-prefix="type"
-      :data-source="recordTypeList"
-      :value.sync="type"
-      :monthRecordList="monthRecordList"
-      @update:total="monthSum = $event"
-      @click="getResult"
-    />
-    <Chart :options="chartOptions" />
-    <div v-for="item in sameTypeMonthRecordList" :key="item[0].icon">
-      <Icon :name="item[0].icon" />
+    <div class="outWrapper">
+      <Tab
+        class-prefix="type"
+        :data-source="recordTypeList"
+        :monthRecordList="monthRecordList"
+        @update:total="monthSum = $event"
+        @click="getResult"
+      />
+      <div class="wrapperChart">
+        <Chart :options="chartOptions" />
+      </div>
       <div>
-        <li>
-          <ol>
-            {{
-              item[0].tag[0]
-            }}
-          </ol>
-          <ol>
-            {{
-              item.length.toString() + "笔"
-            }}
-          </ol>
-          <ol>
-            {{
-              Math.round((Number(sum(item)) / Number(monthSum)) * 10000) / 100 +
-              "%"
-            }}
-          </ol>
-          <ol>
-            {{
-              sum(item)
-            }}
-          </ol>
-        </li>
-        <div>进度条</div>
+        <header class="title">支出排行榜</header>
+        <div
+          v-for="item in sameTypeMonthRecordList"
+          :key="item[0].tag[0]"
+          class="list"
+        >
+          <div class="wrapperIcon">
+            <Icon :name="item[0].icon" />
+          </div>
+          <div class="wrapperListContent">
+            <ol class="listContent">
+              <li class="tagName">
+                {{ item[0].tag[0] }}
+              </li>
+              <li class="tagCount">
+                {{ item.length.toString() + "笔" }}
+              </li>
+              <li class="percent">
+                {{
+                  Math.round((Number(sum(item)) / Number(monthSum)) * 10000) /
+                    100 +
+                  "%"
+                }}
+              </li>
+              <li class="sum">
+                {{ sum(item) }}
+              </li>
+            </ol>
+            <ol class="inBar">
+              <li class="outBar"></li>
+            </ol>
+          </div>
+        </div>
       </div>
     </div>
   </Layout>
@@ -58,7 +66,6 @@ import sum from "@/lib/sum";
 })
 export default class Statistics extends Vue {
   pageValue = false;
-  type = "";
   recordTypeList = recordTypeList;
   monthTime = "";
   monthRecordList: RecordItem[] = [];
@@ -71,7 +78,6 @@ export default class Statistics extends Vue {
     return this.$store.state.recordList;
   }
   get selectedType() {
-    this.$store.commit("fetchSelectedType");
     return this.$store.state.selectedType;
   }
   @Watch("monthTime", { immediate: true })
@@ -110,6 +116,21 @@ export default class Statistics extends Vue {
   }
   // 使用 getter 函数，可动态返回计算值（对象和键值对）
   get chartOptions() {
+    let arr: any = [];
+    let cloneList = clone(this.sameTypeMonthRecordList);
+    let length = cloneList.length;
+    for (let i = 0; i < length; i++) {
+      let obj = { value: 1, name: "" };
+      obj.value = Number(sum(cloneList[0]));
+      obj.name = cloneList[0][0].tag[0];
+      arr.push(obj);
+      console.log(obj);
+
+      obj = { value: 1, name: "" };
+      cloneList.splice(0, 1);
+      length -= 1;
+    }
+    console.log(arr);
     return {
       title: {
         text: "支出",
@@ -138,14 +159,7 @@ export default class Statistics extends Vue {
               },
             },
           },
-          data: [
-            { value: 1048, name: "消费" },
-            { value: 335, name: "交通" },
-            { value: 310, name: "饮食" },
-            { value: 335, name: "交通" },
-            { value: 335, name: "交通" },
-            { value: 335, name: "交通" },
-          ],
+          data: arr,
         },
       ],
     };
@@ -221,5 +235,70 @@ export default class Statistics extends Vue {
   display: flex;
   justify-content: center;
   margin-top: 100px;
+}
+.outWrapper {
+  overflow: auto;
+  .wrapperChart {
+    margin-bottom: 12px;
+  }
+
+  .title {
+    font-size: 12px;
+    line-height: 1.2;
+    background: white;
+    padding: 8px 0 4px 16px;
+  }
+  .list {
+    display: flex;
+    background: white;
+    padding: 10px 0;
+    .wrapperIcon {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px 8px 16px;
+      .icon {
+        height: 25px;
+        width: 25px;
+      }
+    }
+    .wrapperListContent {
+      width: 100%;
+      font-size: 16px;
+      line-height: 1.2;
+      .listContent {
+        display: flex;
+        list-style: none;
+        position: relative;
+        .tagName {
+          padding: 5px 10px 5px 0;
+        }
+        .tagCount {
+          padding: 5px 10px 5px 0;
+        }
+        .percent {
+          padding: 5px 10px 5px 0;
+        }
+        .sum {
+          position: absolute;
+          top: 5px;
+          right: 16px;
+          color: #79ada1;
+        }
+      }
+      .inBar {
+        list-style: none;
+        width: 90%;
+        background: black;
+        height: 3px;
+        background: #c9c5c5;
+        .outBar {
+          background: red;
+          width: 50%; // 需要拿到比例数据
+          height: 3px;
+          background: #79ada1;
+        }
+      }
+    }
+  }
 }
 </style>
