@@ -14,9 +14,7 @@ const store = new Vuex.Store({
     tagList: [],
     showTagList: [],
     currentTag: undefined,
-
     iconNameList: [...iconNameList],
-    monthTime: "",
     selectedType: "",
     selectedTagName: [],
   } as RootState,
@@ -77,6 +75,8 @@ const store = new Vuex.Store({
         if (message === "duplicated") {
           alert("标签名重复了");
         } else if (message === "success") {
+          window.history.back();
+          store.commit("fetchTags");
           alert("添加成功");
         }
       } else {

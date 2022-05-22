@@ -11,8 +11,6 @@ export default class TagHelper extends Vue {
       alert("请选择图标");
     } else {
       this.$store.commit("createTag", tag);
-      this.$router.back();
-      this.$store.commit("fetchTags");
     }
   }
 }
