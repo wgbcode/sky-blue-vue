@@ -51,8 +51,9 @@ const store = new Vuex.Store({
       if (localTagList.length === 0) {
         state.tagList = defaultTag;
         store.commit("saveTags");
+      } else {
+        state.tagList = localTagList; // 防止二次刷新后直接添加 tag 时 state.tagList = []
       }
-      state.tagList = localTagList; // 防止二次刷新后直接添加 tag 时 state.tagList = []
       store.commit("showTags");
     },
     findTag: (state, id: string) => {
@@ -85,8 +86,6 @@ const store = new Vuex.Store({
     },
     removeTag(state, tag: Tag) {
       let index = -1;
-      store.commit("fetchTags");
-      console.log(state.tagList);
       for (let i = 0; i < state.tagList.length; i++) {
         if (state.tagList[i].id === tag.id) {
           index = i;
