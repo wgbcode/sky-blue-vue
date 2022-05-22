@@ -79,7 +79,7 @@ export default class EditLabels extends Vue {
 }
 ::v-deep .edit-textInputWrapper {
   background: white;
-  border-bottom: 1px solid rgb(222, 212, 212);
+  border-bottom: 1px solid rgb(242, 232, 232);
   width: 100%;
   padding: 12px 0 0 0;
   color: black;

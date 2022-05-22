@@ -20,9 +20,9 @@
             <Icon name="right" class="rightIcon" />
           </router-link>
         </li>
-        <li class="wrapperButton">
-          <ButtonStyle @click="createTag"><slot>新增标签</slot></ButtonStyle>
-        </li>
+        <router-link :to="`/addTag`" class="wrapperButton">
+          <ButtonStyle>新增标签</ButtonStyle>
+        </router-link>
       </ol>
     </div>
   </Layout>
