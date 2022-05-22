@@ -1,18 +1,17 @@
 <template>
-  <div>
+  <div class="wrapper">
     <div class="topBar">
       <Icon name="left" @click="goBack" />
       <span>编辑标签</span>
       <Icon />
     </div>
-    <div class="form-wrapper">
-      <FormItem
-        field-name="标签名"
-        placeholder="请输入标签名"
-        :value="currentTag.name"
-        @update:value="update"
-      />
-    </div>
+    <FormItem
+      field-name="标签名"
+      placeholder="请输入标签名"
+      :value="currentTag.name"
+      @update:value="update"
+      classPrefix="edit"
+    />
     <ButtonStyle @click="remove"><slot>删除标签</slot></ButtonStyle>
   </div>
 </template>
@@ -53,23 +52,41 @@ export default class EditLabels extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
-.topBar {
-  font-family: $font-hei;
-  font-size: 20px;
-  line-height: 16px;
+.wrapper {
   background: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-align: center;
-  padding: 16px 16px;
-  .icon {
-    height: 20px;
-    width: 20px;
+  height: 100vh;
+  color: white;
+  .topBar {
+    font-family: $font-hei;
+    font-size: 20px;
+    line-height: 16px;
+    background: #49ad95;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 24px 16px;
+    .icon {
+      height: 20px;
+      width: 20px;
+    }
+  }
+
+  .form-wrapper {
+    background: white;
+    margin-top: 8px;
   }
 }
-.form-wrapper {
+::v-deep .edit-textInputWrapper {
   background: white;
-  margin-top: 8px;
+  border-bottom: 1px solid rgb(222, 212, 212);
+  width: 100%;
+  padding: 12px 0 0 0;
+  color: black;
+  margin: 12px;
+  font-family: $font-hei;
+  .edit-textName {
+    padding: 0px 16px 0 4px;
+  }
 }
 </style>

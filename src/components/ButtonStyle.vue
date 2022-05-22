@@ -14,11 +14,12 @@ export default class ButtonStyle extends Vue {}
 .createTag {
   font-size: 17px;
   line-height: 22px;
-  color: white;
-  background: #767676;
+  color: #6b6b6b;
+  background: #f5f5f5;
   border: none;
   padding: 9px 16px;
   border-radius: 4px;
+  margin-bottom: 32px;
   &-Wrapper {
     display: flex;
     justify-content: center;

@@ -4,8 +4,8 @@ type RootState = {
   tagList: Tag[];
   showTagList: Tag[];
   currentTag?: Tag;
-  selectedType: string;
   iconNameList: string[];
+  selectedType: string;
   selectedTagName: string[];
 };
 type RecordItem = {

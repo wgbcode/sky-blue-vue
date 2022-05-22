@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import Layout from "@/components/Layout.vue";
-import Tab from "@/components/Tab.vue";
+
 import changeDateStyle from "@/lib/changeDateStyle";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import clone from "@/lib/clone";
@@ -33,7 +33,7 @@ import NoData from "@/components/Statistics/NoData.vue";
 import recordTypeList from "@/constants/recordTypeList";
 
 @Component({
-  components: { Tab, Layout, CurChart, RankList, NoData },
+  components: { Layout, CurChart, RankList, NoData },
 })
 export default class Statistics extends Vue {
   recordTypeList = recordTypeList;

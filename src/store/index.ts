@@ -14,8 +14,10 @@ const store = new Vuex.Store({
     tagList: [],
     showTagList: [],
     currentTag: undefined,
-    selectedType: "",
+
     iconNameList: [...iconNameList],
+    monthTime: "",
+    selectedType: "",
     selectedTagName: [],
   } as RootState,
 

@@ -24,8 +24,10 @@
           pattern="[0-9]{4}-[0-9]{2}"
         />
       </div>
-      <div v-else>
-        <span class="textName">{{ fieldName }}</span>
+      <div :class="classPrefix ? classPrefix + '-textInputWrapper' : ''" v-else>
+        <span :class="classPrefix ? classPrefix + '-textName' : 'textName'">{{
+          fieldName
+        }}</span>
         <input
           :type="type || 'text'"
           :value="value"
@@ -48,6 +50,8 @@ export default class FormItem extends Vue {
   @Prop() fieldName?: string;
   @Prop() placeholder?: string;
   @Prop() type?: string;
+  @Prop(String) readonly classPrefix?: string;
+
   onValueChanged(value: string): void {
     this.$emit("update:value", value);
   }
