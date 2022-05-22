@@ -14,7 +14,7 @@
         <RankList :value="sameTypeMonthRecordList" :monthSum="monthSum" />
       </div>
       <div class="wrapperNodata" v-else>
-        <NoData />
+        <NoData>暂无记录数据</NoData>
       </div>
     </div>
   </Layout>

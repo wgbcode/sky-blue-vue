@@ -52,7 +52,7 @@ const store = new Vuex.Store({
         state.tagList = defaultTag;
         store.commit("saveTags");
       } else {
-        state.tagList = localTagList; // 防止二次刷新后直接添加 tag 时 state.tagList = []
+        state.tagList = localTagList;
       }
       store.commit("showTags");
     },
@@ -103,18 +103,26 @@ const store = new Vuex.Store({
     },
     updateTag(state, payload: Tag) {
       const idList = state.tagList.map((item) => item.id);
-      if (idList.indexOf(payload.id) >= 0) {
-        const names = state.tagList.map((item) => item.name);
-        if (names.indexOf(payload.name) >= 0) {
-          return "duplicated";
+      let message = ((payload) => {
+        if (idList.indexOf(payload.id) >= 0) {
+          const names = state.tagList.map((item) => item.name);
+          if (names.indexOf(payload.name) >= 0) {
+            return "duplicated";
+          } else {
+            const tag = state.tagList.filter(
+              (item) => item.id === payload.id
+            )[0];
+            tag.name = payload.name;
+            store.commit("saveTags");
+            window.history.back();
+            return "success";
+          }
         } else {
-          const tag = state.tagList.filter((item) => item.id === payload.id)[0];
-          tag.name = payload.name;
-          store.commit("saveTags");
-          return "success";
+          return "not found";
         }
-      } else {
-        return "not found";
+      })(payload);
+      if (message === "duplicated") {
+        alert("标签名已存在，请重新输入");
       }
     },
     saveTags(state) {

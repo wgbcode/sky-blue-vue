@@ -54,6 +54,7 @@ export default class FormItem extends Vue {
 
   onValueChanged(value: string): void {
     this.$emit("update:value", value);
+    this.$store.commit("fetchTags");
   }
   changeDateStyle(isoString: string) {
     return dayjs(isoString).format("YYYY-MM-DD");
@@ -100,14 +101,6 @@ export default class FormItem extends Vue {
       &:focus {
         outline: none;
       }
-      // &::-webkit-calendar-picker-indicator {
-      //   position: absolute;
-      //   left: 0px;
-      //   top: 0;
-      //   width: 90px;
-      //   background-image: none;
-      //   padding: 5px;
-      // }
     }
   }
 

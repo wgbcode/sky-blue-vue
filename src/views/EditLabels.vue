@@ -1,18 +1,24 @@
 <template>
   <div class="wrapper">
     <div class="topBar">
-      <Icon name="left" @click="goBack" />
-      <span>编辑标签</span>
-      <Icon />
+      <Icon name="left" class="back" @click="goBack" />
+      <div class="wrapperIcon">
+        <Icon :name="currentTag.icon" />
+      </div>
+      <span class="tagName">{{ currentTag.name }}</span>
     </div>
     <FormItem
       field-name="标签名"
-      placeholder="请输入标签名"
-      :value="currentTag.name"
-      @update:value="update"
+      placeholder="请输入新标签名"
+      :value.sync="value"
       classPrefix="edit"
     />
-    <ButtonStyle @click="remove"><slot>删除标签</slot></ButtonStyle>
+    <ol class="wrapperOprate">
+      <li class="oprate">
+        <button @click="remove" class="remove">删除</button>
+        <button @click="update">完成</button>
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -21,6 +27,7 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class EditLabels extends Vue {
+  value = "";
   get currentTag() {
     return this.$store.state.currentTag;
   }
@@ -34,12 +41,15 @@ export default class EditLabels extends Vue {
   goBack() {
     this.$router.back();
   }
-  update(name: string) {
-    if (this.currentTag) {
+  update() {
+    if (this.value !== "" && this.currentTag) {
       this.$store.commit("updateTag", {
         id: this.currentTag.id,
-        name,
+        name: this.value,
       });
+      this.$store.commit("fetchTags");
+    } else {
+      alert("请输入新标签名");
     }
   }
   remove() {
@@ -56,25 +66,70 @@ export default class EditLabels extends Vue {
   background: white;
   height: 100vh;
   color: white;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   .topBar {
     font-family: $font-hei;
-    font-size: 20px;
+    font-size: 16px;
     line-height: 16px;
     background: #49ad95;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     text-align: center;
     padding: 24px 16px;
-    .icon {
-      height: 20px;
-      width: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    .back {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 25px;
+      height: 25px;
+    }
+    .wrapperIcon {
+      border-radius: 50%;
+      padding: 8px;
+      background: white;
+      .icon {
+        height: 30px;
+        width: 30px;
+      }
+    }
+    .tagName {
+      padding-top: 15px;
     }
   }
 
   .form-wrapper {
     background: white;
-    margin-top: 8px;
+    margin-top: 16px;
+  }
+  .wrapperOprate {
+    position: relative;
+    height: 100%;
+    .oprate {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+
+      box-shadow: 0px -1px rgb(230, 218, 218);
+      display: flex;
+      justify-content: space-around;
+      button {
+        border: none;
+        font-size: 16px;
+        line-height: 1.2;
+        width: 50%;
+        padding: 16px 0;
+        background: white;
+      }
+      .remove {
+        border-right: 1px solid rgb(230, 218, 218);
+      }
+    }
   }
 }
 ::v-deep .edit-textInputWrapper {

@@ -2,13 +2,12 @@
   <Layout>
     <div class="wrapperTags">
       <ol>
-        <li class="tagSet">标签设置</li>
         <li>
           <Tab :data-source="recordTypeList" />
         </li>
       </ol>
       <ol class="tags">
-        <li>
+        <li v-if="showTagList.length !== 0">
           <router-link
             class="router"
             v-for="tag in showTagList"
@@ -20,10 +19,11 @@
             <Icon name="right" class="rightIcon" />
           </router-link>
         </li>
-        <div :to="`/addTag`" class="wrapperButton">
-          <ButtonStyle>
+        <li v-else><NoData>请添加标签</NoData></li>
+        <div class="wrapperAddTag">
+          <button>
             <router-link :to="`/addTag`">新增标签</router-link>
-          </ButtonStyle>
+          </button>
         </div>
       </ol>
     </div>
@@ -35,8 +35,11 @@ import { Component } from "vue-property-decorator";
 import { Mixins } from "vue-property-decorator";
 import TagHelper from "@/mixins/TagHelper";
 import recordTypeList from "@/constants/recordTypeList";
+import NoData from "@/components/Statistics/NoData.vue";
 
-@Component
+@Component({
+  components: { NoData },
+})
 export default class Labels extends Mixins(TagHelper) {
   recordTypeList = recordTypeList;
   get selectedType() {
@@ -54,6 +57,7 @@ export default class Labels extends Mixins(TagHelper) {
   display: flex;
   flex-direction: column;
   overflow: auto;
+
   .tagSet {
     font-size: 18px;
     color: white;
@@ -88,10 +92,19 @@ export default class Labels extends Mixins(TagHelper) {
         top: 12px;
       }
     }
-  }
-  .wrapperButton {
-    flex-grow: 1;
-    background: white;
+    .wrapperAddTag {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      button {
+        background: white;
+        border: none;
+        background: #bcbbc1;
+        padding: 12px 24px;
+        margin: 52px 0 28px 0;
+        border-radius: 4px;
+      }
+    }
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="noData">
     <div><Icon name="noData" /></div>
-    <span class="noText">暂无记录数据</span>
+    <span class="noText"><slot /></span>
   </div>
 </template>
 
