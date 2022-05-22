@@ -11,7 +11,7 @@
         <li>
           <router-link
             class="router"
-            v-for="tag in sameTypeTagList"
+            v-for="tag in showTagList"
             :key="tag.id"
             :to="`/labels/edit/${tag.id}`"
           >
@@ -20,9 +20,11 @@
             <Icon name="right" class="rightIcon" />
           </router-link>
         </li>
-        <router-link :to="`/addTag`" class="wrapperButton">
-          <ButtonStyle>新增标签</ButtonStyle>
-        </router-link>
+        <div :to="`/addTag`" class="wrapperButton">
+          <ButtonStyle>
+            <router-link :to="`/addTag`">新增标签 </router-link>
+          </ButtonStyle>
+        </div>
       </ol>
     </div>
   </Layout>
@@ -37,14 +39,11 @@ import recordTypeList from "@/constants/recordTypeList";
 @Component
 export default class Labels extends Mixins(TagHelper) {
   recordTypeList = recordTypeList;
-  sameTypeTags = [];
   get selectedType() {
     return this.$store.state.selectedType;
   }
-  get sameTypeTagList() {
-    return this.$store.state.tagList.filter(
-      (t: { type: Tag }) => t.type === this.selectedType
-    );
+  get showTagList() {
+    return this.$store.state.showTagList;
   }
 }
 </script>
@@ -71,7 +70,7 @@ export default class Labels extends Mixins(TagHelper) {
     overflow: auto;
     height: 100%;
     .router {
-      padding: 12px 16px 16px 0;
+      padding: 16px 16px 12px 0;
       display: flex;
       box-shadow: inset 0px -0.5px 0px #bcbbc1;
       margin: 0 16px;

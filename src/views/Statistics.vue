@@ -13,7 +13,7 @@
         <CurChart :value="sameTypeMonthRecordList" />
         <RankList :value="sameTypeMonthRecordList" :monthSum="monthSum" />
       </div>
-      <div v-else>
+      <div class="wrapperNodata" v-else>
         <NoData />
       </div>
     </div>
@@ -22,7 +22,6 @@
 
 <script lang="ts">
 import Layout from "@/components/Layout.vue";
-
 import changeDateStyle from "@/lib/changeDateStyle";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import clone from "@/lib/clone";
@@ -97,6 +96,17 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.outWrapper {
+  overflow: auto;
+  height: 100%; // 父元素已设置 flow-grow = 1
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  .wrapperNodata {
+    height: 100%;
+    display: flex;
+  }
+}
 ::v-deep .type-tabWrapper {
   background: white;
   color: #535152;
@@ -133,13 +143,5 @@ export default class Statistics extends Vue {
       }
     }
   }
-}
-
-.outWrapper {
-  overflow: auto;
-  height: 100%; // 父元素已设置 flow-grow = 1
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
 }
 </style>

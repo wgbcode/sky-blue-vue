@@ -27,6 +27,8 @@ export default {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
   flex-direction: row;
   font-size: 12px;
+  background: white;
+  padding: 8px 0 0 0;
   > .item {
     padding: 2px 0;
     width: 33.33333%;
@@ -40,7 +42,7 @@ export default {
     }
   }
   > .item.selected {
-    color: red;
+    color: #5fab87;
   }
 }
 </style>
