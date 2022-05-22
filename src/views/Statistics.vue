@@ -23,7 +23,6 @@
 <script lang="ts">
 import Layout from "@/components/Layout.vue";
 import Tab from "@/components/Tab.vue";
-import recordTypeList from "@/constants/recordTypeList";
 import changeDateStyle from "@/lib/changeDateStyle";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import clone from "@/lib/clone";
@@ -31,12 +30,12 @@ import sum from "@/lib/sum";
 import CurChart from "@/components/Statistics/CurChart.vue";
 import RankList from "@/components/Statistics/RankList.vue";
 import NoData from "@/components/Statistics/NoData.vue";
+import recordTypeList from "@/constants/recordTypeList";
 
 @Component({
   components: { Tab, Layout, CurChart, RankList, NoData },
 })
 export default class Statistics extends Vue {
-  pageValue = false;
   recordTypeList = recordTypeList;
   monthTime = "";
   monthRecordList: RecordItem[] = [];
