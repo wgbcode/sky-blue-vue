@@ -13,10 +13,8 @@
         <CurChart :value="sameTypeMonthRecordList" />
         <RankList :value="sameTypeMonthRecordList" :monthSum="monthSum" />
       </div>
-
-      <div class="noRecordData" v-else>
-        <div><Icon name="noData" /></div>
-        <span class="noRecordText">暂无记录数据</span>
+      <div v-else>
+        <NoData />
       </div>
     </div>
   </Layout>
@@ -32,9 +30,10 @@ import clone from "@/lib/clone";
 import sum from "@/lib/sum";
 import CurChart from "@/components/Statistics/CurChart.vue";
 import RankList from "@/components/Statistics/RankList.vue";
+import NoData from "@/components/Statistics/NoData.vue";
 
 @Component({
-  components: { Tab, Layout, CurChart, RankList },
+  components: { Tab, Layout, CurChart, RankList, NoData },
 })
 export default class Statistics extends Vue {
   pageValue = false;
@@ -143,21 +142,5 @@ export default class Statistics extends Vue {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  .noRecordData {
-    display: flex;
-    background: white;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    padding-top: 50px;
-    .icon {
-      width: 100px;
-      height: 100px;
-    }
-    .noRecordText {
-      color: #aeadad;
-    }
-  }
 }
 </style>
