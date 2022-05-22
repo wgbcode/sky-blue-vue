@@ -37,7 +37,7 @@ const store = new Vuex.Store({
     },
 
     setCurrentTag(state, id: string) {
-      state.currentTag = state.tagList.filter((t) => t.id === id)[0];
+      state.currentTag = state.showTagList.filter((t) => t.id === id)[0];
     },
     showTags(state) {
       let currentLocalTagList = JSON.parse(localStorage.getItem("tagList")!);
@@ -85,6 +85,8 @@ const store = new Vuex.Store({
     },
     removeTag(state, tag: Tag) {
       let index = -1;
+      store.commit("fetchTags");
+      console.log(state.tagList);
       for (let i = 0; i < state.tagList.length; i++) {
         if (state.tagList[i].id === tag.id) {
           index = i;
@@ -94,6 +96,7 @@ const store = new Vuex.Store({
       if (index >= 0) {
         state.tagList.splice(index, 1);
         store.commit("saveTags");
+        store.commit("showTags");
         router.back();
       } else {
         window.alert("删除失败");

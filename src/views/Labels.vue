@@ -22,7 +22,7 @@
         </li>
         <div :to="`/addTag`" class="wrapperButton">
           <ButtonStyle>
-            <router-link :to="`/addTag`">新增标签 </router-link>
+            <router-link :to="`/addTag`">新增标签</router-link>
           </ButtonStyle>
         </div>
       </ol>
