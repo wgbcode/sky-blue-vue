@@ -63,5 +63,8 @@ export default class CurChart extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.wrapperChart {
+  margin-bottom: 12px;
+}
 </style>
