@@ -10,9 +10,7 @@
         @click="getResult"
       />
       <div v-if="monthSum !== '0.00'">
-        <div class="wrapperChart">
-          <Chart :options="chartOptions" />
-        </div>
+        <CurChart :value="sameTypeMonthRecordList" />
         <div>
           <header class="title">支出排行榜</header>
           <div
@@ -74,20 +72,20 @@ import Tab from "@/components/Tab.vue";
 import recordTypeList from "@/constants/recordTypeList";
 import changeDateStyle from "@/lib/changeDateStyle";
 import { Component, Vue, Watch } from "vue-property-decorator";
-import Chart from "@/components/Chart.vue";
 import clone from "@/lib/clone";
 import sum from "@/lib/sum";
+import CurChart from "@/components/Statistics/CurChart.vue";
 
 @Component({
-  components: { Tab, Layout, Chart },
+  components: { Tab, Layout, CurChart },
 })
 export default class Statistics extends Vue {
   pageValue = false;
   recordTypeList = recordTypeList;
   monthTime = "";
   monthRecordList: RecordItem[] = [];
-  sameMonthRecordList: any = [];
-  sameTypeMonthRecordList: any = [];
+  sameMonthRecordList: RecordItem[][] = [];
+  sameTypeMonthRecordList: RecordItem[][] = [];
   monthSum: string = "0.00";
   sum = sum;
 
@@ -130,52 +128,6 @@ export default class Statistics extends Vue {
       container = [];
     }
     this.getResult();
-  }
-  // 使用 getter 函数，可动态返回计算值（对象和键值对）
-  get chartOptions() {
-    let arr: any = [];
-    let cloneList = clone(this.sameTypeMonthRecordList);
-    let length = cloneList.length;
-    for (let i = 0; i < length; i++) {
-      let obj = { value: 1, name: "" };
-      obj.value = Number(sum(cloneList[0]));
-      obj.name = cloneList[0][0].tag[0];
-      arr.push(obj);
-      obj = { value: 1, name: "" };
-      cloneList.splice(0, 1);
-    }
-    return {
-      title: {
-        text: "支出",
-        left: "center",
-        top: "center",
-        textStyle: {
-          fontSize: 16,
-          color: "#454c5c",
-          align: "center",
-          fontFamily: "微软雅黑",
-        },
-      },
-      series: [
-        {
-          name: "",
-          type: "pie",
-          radius: ["30%", "60%"],
-          label: {
-            formatter: "{b|{b}} {per|{d}%} ",
-            rich: {
-              b: {
-                color: "#4C5058",
-              },
-              per: {
-                color: "#4C5058",
-              },
-            },
-          },
-          data: arr,
-        },
-      ],
-    };
   }
   created() {
     this.getResult();
