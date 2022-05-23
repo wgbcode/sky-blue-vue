@@ -2,12 +2,14 @@
   <div>
     <header class="tagTitle">
       <button @click="goBack">取消</button>
-      <div>新增支出类型</div>
+      <div>
+        {{ "新增" + [selectedType === "-" ? "支出" : "收入"] + "类型" }}
+      </div>
       <button @click="createTag(tag)">保存</button>
     </header>
     <FormItem
-      fieldName="类别名称"
-      placeholder="8个字以内"
+      fieldName="标签名"
+      placeholder="请输入标签名称"
       class="inputTagName"
       :value.sync="tag.name"
     />
@@ -30,7 +32,7 @@
 <script lang="ts">
 import addClass from "@/lib/addClass";
 import TagHelper from "@/mixins/TagHelper";
-import { Component, Mixins, Watch } from "vue-property-decorator";
+import { Component, Mixins } from "vue-property-decorator";
 
 @Component
 export default class AddTag extends Mixins(TagHelper) {
@@ -39,10 +41,13 @@ export default class AddTag extends Mixins(TagHelper) {
     id: "",
     name: "",
     icon: "",
-    type: "-",
+    type: "",
   };
   get iconNameList() {
     return this.$store.state.iconNameList;
+  }
+  get selectedType() {
+    return this.$store.state.selectedType;
   }
   goBack() {
     this.$router.back();
@@ -59,13 +64,18 @@ export default class AddTag extends Mixins(TagHelper) {
 .tagTitle {
   display: flex;
   justify-content: space-between;
-  background: #5fab87;
-  padding: 16px 16px;
+  background: #49ad95;
+  padding: 24px 16px;
   color: white;
+  font-size: 16px;
+  line-height: 1.2;
   button {
     border: none;
     background: transparent;
     color: white;
+  }
+  button:focus {
+    outline: none;
   }
 }
 .inputTagName {

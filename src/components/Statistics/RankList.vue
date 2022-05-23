@@ -1,6 +1,8 @@
 <template>
   <div>
-    <header class="title">排行榜</header>
+    <header class="title">
+      {{ "月度" + [selectedType === "-" ? "支出" : "收入"] + "情况" }}
+    </header>
     <div v-for="item in value" :key="item[0].tag[0]" class="list">
       <div class="wrapperIcon">
         <Icon :name="item[0].icon" />
@@ -48,6 +50,9 @@ export default class RankList extends Vue {
   @Prop(Array) readonly value!: RecordItem[][];
   @Prop(String) readonly monthSum!: string;
   sum = sum;
+  get selectedType() {
+    return this.$store.state.selectedType;
+  }
 }
 </script>
 

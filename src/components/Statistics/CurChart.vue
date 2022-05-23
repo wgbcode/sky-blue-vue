@@ -15,10 +15,14 @@ import sum from "@/lib/sum";
 })
 export default class CurChart extends Vue {
   @Prop(Array) readonly value!: RecordItem[][];
+  get selectedType() {
+    return this.$store.state.selectedType;
+  }
   get chartOptions() {
     let arr: any = [];
     let cloneList = clone(this.value);
     let length = cloneList.length;
+    let type = "";
     for (let i = 0; i < length; i++) {
       let obj = { value: 1, name: "" };
       obj.value = Number(sum(cloneList[0]));
@@ -27,9 +31,14 @@ export default class CurChart extends Vue {
       obj = { value: 1, name: "" };
       cloneList.splice(0, 1);
     }
+    if (this.selectedType === "-") {
+      type = "支出";
+    } else {
+      type = "收入";
+    }
     return {
       title: {
-        text: "支出",
+        text: type,
         left: "center",
         top: "center",
         textStyle: {

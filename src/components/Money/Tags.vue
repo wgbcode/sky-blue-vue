@@ -75,6 +75,12 @@ export default class Tags extends Vue {
         width: 35px;
         padding: 5px;
       }
+      span {
+        width: 35px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
       .selected {
         background: #49ad95;
       }

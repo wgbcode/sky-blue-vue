@@ -9,7 +9,7 @@
     </div>
     <FormItem
       field-name="标签名"
-      placeholder="请输入新标签名"
+      placeholder="请输入新的标签名"
       :value.sync="value"
       classPrefix="edit"
     />
@@ -49,7 +49,7 @@ export default class EditLabels extends Vue {
       });
       this.$store.commit("fetchTags");
     } else {
-      alert("请输入新标签名");
+      alert("请输入新的标签名");
     }
   }
   remove() {

@@ -54,7 +54,6 @@ export default class FormItem extends Vue {
 
   onValueChanged(value: string): void {
     this.$emit("update:value", value);
-    this.$store.commit("fetchTags");
   }
   changeDateStyle(isoString: string) {
     return dayjs(isoString).format("YYYY-MM-DD");
@@ -91,7 +90,7 @@ export default class FormItem extends Vue {
       font-family: $font-hei;
     }
     .dateInput {
-      width: 100px;
+      width: 110px;
       border: 1px solid #fbfbf1;
       border-radius: 12px;
       text-align: center;
@@ -120,7 +119,7 @@ export default class FormItem extends Vue {
       border: none;
       color: white;
       display: flex;
-      width: 120px;
+      width: 35%;
       justify-content: center;
       &:focus {
         outline: none;
