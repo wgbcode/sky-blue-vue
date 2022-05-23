@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ wrapperQRCode: clientWidth > 500 }">
+  <div class="wrapperQRCode" v-show="clientWidth > 500">
     <img class="QRCode" src="../../../public/qrcode.png" />
   </div>
 </template>
@@ -12,6 +12,7 @@ export default class QRCode extends Vue {
   clientWidth = 0;
   created() {
     this.clientWidth = document.body.clientWidth;
+    console.log("this.clientWidth", this.clientWidth);
     if (this.clientWidth > 500) {
       alert("为保证浏览效果，请使用手机浏览本页面！");
     }

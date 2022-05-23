@@ -42,6 +42,7 @@ a {
 import Vue from "vue";
 export default Vue.extend({
   created() {
+    console.log("执行了");
     this.$store.commit("fetchTags");
     this.$store.commit("fetchRecords");
     this.$store.commit("fetchSelectedType");

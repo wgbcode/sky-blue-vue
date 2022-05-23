@@ -26,7 +26,7 @@ import recordTypeList from "@/constants/recordTypeList";
 import NumberPad from "@/components/Money/NumberPad.vue";
 import dayjs from "dayjs";
 import changeDateStyle from "@/lib/changeDateStyle";
-import QRCode from "../components/Money/QRCode.vue";
+import QRCode from "@/components/Money/QRCode.vue";
 
 @Component({
   components: { Tags, Tab, NumberPad, QRCode },
