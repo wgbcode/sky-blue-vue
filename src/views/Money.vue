@@ -13,6 +13,7 @@
       :value.sync="record.notes"
     />
     <NumberPad :value.sync="record.amount" @submit="saveRecord" />
+    <QRCode />
   </Layout>
 </template>
 
@@ -25,9 +26,10 @@ import recordTypeList from "@/constants/recordTypeList";
 import NumberPad from "@/components/Money/NumberPad.vue";
 import dayjs from "dayjs";
 import changeDateStyle from "@/lib/changeDateStyle";
+import QRCode from "../components/Money/QRCode.vue";
 
 @Component({
-  components: { Tags, Tab, NumberPad },
+  components: { Tags, Tab, NumberPad, QRCode },
 })
 export default class Money extends Vue {
   record: RecordItem = {
