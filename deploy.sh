@@ -4,7 +4,7 @@
 set -e
 
 # 构建
-yarn build:dev
+yarn build
 # 或者 npm run build
 
 # cd 到构建输出的目录下

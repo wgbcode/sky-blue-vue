@@ -2,9 +2,7 @@
 const path = require('path')
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/sky-blue-vue/'
-    : '/',
+  publicPath: '/sky-blue-vue/',
   lintOnSave: false,
   chainWebpack: config => {
     const dir = path.resolve(__dirname, 'src/assets/icons')  // __dirname:当前目录
