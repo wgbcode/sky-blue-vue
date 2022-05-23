@@ -4,8 +4,8 @@
 set -e
 
 # 构建
-yarn build
-# 或者 npm run buildaa
+yarn build:dev
+# 或者 npm run build
 
 # cd 到构建输出的目录下
 cd dist
@@ -18,7 +18,7 @@ git add -A
 git commit -m 'deploy'
 
 # 部署到 https://<USERNAME>.github.io
-# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
+# git push -f git@gitee.com:wgbcode/sky-blue-vue.git master
 
 # 部署到 https://<USERNAME>.github.io/<REPO>
 git push -f git@gitee.com:wgbcode/sky-blue-vue.git master:gh-pages
